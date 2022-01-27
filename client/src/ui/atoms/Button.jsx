@@ -43,7 +43,6 @@ let theme = createTheme({
   typography: {
     button: {
       fontFamily: ['"Inter"', 'sans-serif'].join(','),
-      // fontSize: 0.9375,
       fontSize: 15,
       textTransform: 'none',
       lineHeight: 1.375,

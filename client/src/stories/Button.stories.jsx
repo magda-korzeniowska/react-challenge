@@ -34,11 +34,28 @@ export default {
         type: 'boolean',
       },
     },
+    startIcon: {
+      control: {
+        default: false,
+        type: 'boolean',
+      },
+    },
+    endIcon: {
+      control: {
+        default: false,
+        type: 'boolean',
+      },
+    },
+    onClick: {
+      action: 'clicked'
+    },
   },
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = ({ label, ...args }) => <Button {...args}>{label}</Button>;
+// const Template = (args) => <Button {...args} />;
+
 const All = () => (
   <>
     <Grid container>

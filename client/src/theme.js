@@ -200,7 +200,7 @@ theme = createTheme(theme, {
           '& > *:first-child': {
             fontSize: 'inherit',
           },
-          padding: '6px 0px'
+          padding: '6px 0px',
         },
         endIcon: {
           '& > *:first-child': {

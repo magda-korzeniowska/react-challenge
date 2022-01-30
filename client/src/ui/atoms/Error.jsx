@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, CardMedia, Typography } from '@mui/material';
 
+import {theme} from "../../theme";
 import errorImg from '../../assets/unknown_error.png';
 
 export const Error = ({ error }) => {
@@ -8,10 +9,8 @@ export const Error = ({ error }) => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        minHeight: '100vh',
       }}
     >
       {
@@ -28,7 +27,7 @@ export const Error = ({ error }) => {
             <Typography
               variant='body1'
               sx={{
-                color: 'rgba(51, 51, 51, 0.5)',
+                color: theme.palette.grey.level4,
               }}
             >
               Wystąpił nieoczekiwany błąd

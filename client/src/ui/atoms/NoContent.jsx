@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, CardMedia, Typography } from '@mui/material';
 
+import {theme} from "../../theme";
 import noContentImg from '../../assets/no_content.png';
 
 export const NoContent = () => {
@@ -9,9 +10,7 @@ export const NoContent = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
       }}
     >
       <CardMedia
@@ -23,7 +22,7 @@ export const NoContent = () => {
       <Typography
         variant='body1'
         sx={{
-          color: 'rgba(51, 51, 51, 0.5)',
+          color: theme.palette.grey.level4,
         }}
       >
         Brak danych do wyświetlenia

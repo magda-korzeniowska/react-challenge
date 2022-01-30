@@ -19,24 +19,24 @@ export function Button({ children, startIcon, endIcon, ...props }) {
   )
 }
 
-Button.propTypes = {
-  variant: PropTypes.string,
-  color: PropTypes.string,
-  size: PropTypes.string,
-  onClick: PropTypes.func,
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  startIcon: PropTypes.bool,
-  endIcon: PropTypes.bool,
-};
+// Button.propTypes = {
+//   variant: PropTypes.string,
+//   color: PropTypes.string,
+//   size: PropTypes.string,
+//   onClick: PropTypes.func,
+//   label: PropTypes.string,
+//   disabled: PropTypes.bool,
+//   startIcon: PropTypes.bool,
+//   endIcon: PropTypes.bool,
+// };
 
-Button.defaultProps = {
-  variant: 'contained',
-  color: 'primary',
-  size: 'medium',
-  disabled: false,
-  startIcon: false,
-  endIcon: false
-}
+// Button.defaultProps = {
+//   variant: 'contained',
+//   color: 'primary',
+//   size: 'medium',
+//   disabled: false,
+//   startIcon: false,
+//   endIcon: false
+// }
 
 

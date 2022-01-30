@@ -78,6 +78,7 @@ theme = createTheme(theme, {
       fontSize: '1.44rem',
     },
     body1: {
+      fontFamily: 'Inter, sans-serif',
       fontSize: '1.2rem',
     },
     button: {
@@ -98,8 +99,6 @@ theme = createTheme(theme, {
     MuiButton: {
       styleOverrides: {
         root: {
-          // width: '72px',
-          // height: '38px',
           padding: '6px 12px',
           boxShadow: 'none',
           minWidth: '34px',

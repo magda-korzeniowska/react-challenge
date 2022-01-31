@@ -27,7 +27,8 @@ let theme = createTheme({
       contrastText: '#fff',
     },
     success: {
-      main: '#00A980',
+      main: '#66BB6A',
+      dark: '#00A980',
       light: '#DBEBDB',
       contrastText: '#fff',
     },
@@ -149,6 +150,7 @@ theme = createTheme(theme, {
         },
         outlinedError: {
           backgroundColor: theme.palette.background.secondary,
+          borderColor: theme.palette.error.main,
           '&:hover, &:active': {
             backgroundColor: theme.palette.error.light,
           },
@@ -156,22 +158,24 @@ theme = createTheme(theme, {
         containedSuccess: {
           fontWeight: 600,
           backgroundColor: theme.palette.success.light,
-          color: theme.palette.success.main,
+          color: theme.palette.success.dark,
           '&:hover': {
-            backgroundColor: theme.palette.success.main,
+            backgroundColor: theme.palette.success.dark,
             color: theme.palette.error.contrastText,
           },
           '&:active': {
             backgroundColor: theme.palette.success.light,
-            color: theme.palette.success.main,
+            color: theme.palette.success.dark,
           },
         },
         outlinedSuccess: {
           fontWeight: 600,
           backgroundColor: theme.palette.background.secondary,
-          color: theme.palette.success.main,
+          color: theme.palette.success.dark,
+          borderColor: theme.palette.success.main,
           '&:hover, &:active': {
             backgroundColor: theme.palette.success.light,
+            color: theme.palette.success.dark,
           },
         },
         containedWarning: {
@@ -191,6 +195,7 @@ theme = createTheme(theme, {
           fontWeight: 600,
           backgroundColor: theme.palette.background.secondary,
           color: theme.palette.warning.main,
+          borderColor: theme.palette.warning.main,
           '&:hover, &:active': {
             backgroundColor: theme.palette.warning.light,
           },

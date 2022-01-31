@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Button as MuiButton } from '@mui/material';
-
-// export function Button({ children, ...props }) {
-//   return <MuiButton {...props}>{children}</MuiButton>;
-// }
 export function Button({ children, startIcon, endIcon, ...props }) {
   return (
     <MuiButton
@@ -17,26 +13,26 @@ export function Button({ children, startIcon, endIcon, ...props }) {
       <span style={{ marginRight: `${children.length === 0 ? '0px': endIcon ? '6px' : '0px'}` }}>{children}</span>
     </MuiButton>
   )
-}
+};
 
-// Button.propTypes = {
-//   variant: PropTypes.string,
-//   color: PropTypes.string,
-//   size: PropTypes.string,
-//   onClick: PropTypes.func,
-//   label: PropTypes.string,
-//   disabled: PropTypes.bool,
-//   startIcon: PropTypes.bool,
-//   endIcon: PropTypes.bool,
-// };
+Button.propTypes = {
+  variant: PropTypes.string,
+  color: PropTypes.string,
+  size: PropTypes.string,
+  onClick: PropTypes.func,
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  startIcon: PropTypes.bool,
+  endIcon: PropTypes.bool,
+};
 
-// Button.defaultProps = {
-//   variant: 'contained',
-//   color: 'primary',
-//   size: 'medium',
-//   disabled: false,
-//   startIcon: false,
-//   endIcon: false
-// }
+Button.defaultProps = {
+  variant: 'contained',
+  color: 'primary',
+  size: 'medium',
+  disabled: false,
+  startIcon: false,
+  endIcon: false,
+};
 
 

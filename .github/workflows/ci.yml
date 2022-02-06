@@ -3,6 +3,8 @@ on:
     branches: [ main ]
   pull_request:
     types: [ opened, synchronize, edited ]
+  pull_request_target:
+    types: [ opened, synchronize, edited ]
 
 name: CI
 
@@ -57,7 +59,7 @@ jobs:
           key: ${{ github.sha }}
 
       - name: Setup Node.js 14.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: "14.x"
 

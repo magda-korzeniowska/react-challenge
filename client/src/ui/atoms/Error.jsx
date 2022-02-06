@@ -9,6 +9,7 @@ export const Error = ({ error }) => {
     <Box
       sx={{
         display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
       }}
@@ -22,7 +23,7 @@ export const Error = ({ error }) => {
               component="img"
               sx={{ width: 248 }}
               src={errorImg}
-              alt='Wystąpił nieoczekiwany błąd'
+              alt=''
             />
             <Typography
               variant='body1'

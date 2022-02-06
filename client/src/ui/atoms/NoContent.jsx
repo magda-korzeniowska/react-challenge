@@ -9,15 +9,16 @@ export const NoContent = () => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column',
       }}
     >
       <CardMedia
         component="img"
         sx={{ width: 202 }}
         src={noContentImg}
-        alt='Brak danych do wyświetlenia'
+        alt=''
       />
       <Typography
         variant='body1'

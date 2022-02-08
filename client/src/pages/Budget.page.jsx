@@ -1,17 +1,28 @@
 import React from 'react';
 
-import { ActionHeader, Card, Page } from 'ui';
+import { ActionHeader, Button, Card, Page } from 'ui';
 import { Grid } from '@mui/material';
 
 export const BudgetPage = () => {
+
   return (
     <Page title="Budżet">
       <Card
         title={
           <ActionHeader
             variant={'h1'}
-            title="Budżet"
-            renderActions={() => null}
+            title="Twój budżet"
+            renderActions={() => (
+              <Button
+                variant='contained'
+                color='primary'
+                size='medium'
+                disabled={false}
+                startIcon={false}
+                endIcon={false}
+                onClick={() => console.log('click')}
+              >Zdefiniuj budżet</Button>
+            )}
           />
         }
       >

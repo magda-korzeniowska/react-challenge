@@ -9,7 +9,7 @@ export function Button({ children, startIcon, endIcon, ...props }) {
       {...props}
       startIcon={startIcon && <AddIcon />}
       endIcon={endIcon && <ArrowForwardIosIcon />}
-      disableRipple
+      // disableRipple
     >
       <span style={{ marginRight: `${children.length === 0 ? '0px': endIcon ? '6px' : '0px'}` }}>{children}</span>
     </MuiButton>
@@ -21,7 +21,6 @@ Button.propTypes = {
   color: PropTypes.string,
   size: PropTypes.string,
   onClick: PropTypes.func,
-  label: PropTypes.string,
   disabled: PropTypes.bool,
   startIcon: PropTypes.bool,
   endIcon: PropTypes.bool,

@@ -12,6 +12,7 @@ export const NoContent = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
+        height: '600px'
       }}
     >
       <CardMedia

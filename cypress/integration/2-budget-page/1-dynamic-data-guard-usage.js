@@ -3,7 +3,7 @@ context('Dynamic data guard', () => {
     cy.intercept('GET', 'http://localhost:4320/budget', []);
     cy.visit('/budget');
 
-    cy.get('#budżet').contains('Brak danych').should('exist');
+    cy.get('#budżet').contains('Brak danych do wyświetlenia').should('exist');
     cy.get('#budżet').get('button').should('exist');
     cy.get('#budżet').find('img').should('exist');
 
@@ -16,9 +16,7 @@ context('Dynamic data guard', () => {
     });
     cy.visit('/budget');
     cy.wait(12000);
-    cy.get('#budżet')
-      .contains('Ups! Wystąpił nieoczekiwany błąd. Odśwież stronę.')
-      .should('exist');
+    cy.get('#budżet').contains('Wystąpił nieoczekiwany błąd').should('exist');
     cy.get('#budżet').get('button').should('exist');
     cy.get('table').should('not.exist');
     cy.get('#budżet').find('img').should('exist');

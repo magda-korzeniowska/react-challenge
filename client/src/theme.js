@@ -141,7 +141,7 @@ theme = createTheme(theme, {
     MuiToolbar: {
       styleOverrides: {
         root: {
-          borderRadius: 0,
+          borderRadius: theme.shape.borderRadius,
         },
       },
     },

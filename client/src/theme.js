@@ -201,13 +201,13 @@ theme = createTheme(theme, {
           },
         },
         startIcon: {
-          '& > *:first-child': {
+          '& > *:first-of-type': {
             fontSize: 'inherit',
           },
           padding: '6px 0px',
         },
         endIcon: {
-          '& > *:first-child': {
+          '& > *:first-of-type': {
             fontSize: '10px',
           },
           padding: '6px 0px',

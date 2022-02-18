@@ -2,7 +2,8 @@ import React from 'react';
 import { Box, CardMedia, Typography } from '@mui/material';
 
 import {theme} from "../../theme";
-import errorImg from '../../assets/unknown_error.png';
+import errorImg from 'assets/unknown_error.png';
+
 
 export const Error = ({ error }) => {
   return (

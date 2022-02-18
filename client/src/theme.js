@@ -201,13 +201,13 @@ theme = createTheme(theme, {
           },
         },
         startIcon: {
-          '& > *:first-child': {
+          '& > *:first-of-type': {
             fontSize: 'inherit',
           },
           padding: '6px 0px',
         },
         endIcon: {
-          '& > *:first-child': {
+          '& > *:first-of-type': {
             fontSize: '10px',
           },
           padding: '6px 0px',
@@ -274,7 +274,16 @@ theme = createTheme(theme, {
     MuiToolbar: {
       styleOverrides: {
         root: {
-          borderRadius: theme.shape.borderRadius,
+          borderRadius: 0,
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            backgroundColor: '#F9FAFD',
+          },
         },
       },
     },

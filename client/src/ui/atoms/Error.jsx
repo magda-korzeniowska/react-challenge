@@ -12,6 +12,7 @@ export const Error = ({ error }) => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
+        height: '600px'
       }}
     >
       {

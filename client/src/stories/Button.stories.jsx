@@ -34,18 +34,18 @@ export default {
         type: 'boolean',
       },
     },
-    startIcon: {
-      control: {
-        default: false,
-        type: 'boolean',
-      },
-    },
-    endIcon: {
-      control: {
-        default: false,
-        type: 'boolean',
-      },
-    },
+    // startIcon: {
+    //   control: {
+    //     default: false,
+    //     type: 'boolean',
+    //   },
+    // },
+    // endIcon: {
+    //   control: {
+    //     default: false,
+    //     type: 'boolean',
+    //   },
+    // },
     onClick: {
       action: 'clicked'
     },

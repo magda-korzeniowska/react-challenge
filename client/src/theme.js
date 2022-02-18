@@ -282,11 +282,11 @@ theme = createTheme(theme, {
       styleOverrides: {
         root: {
           '&.Mui-selected': {
-            backgroundColor: '#F9FAFD'
-          }
-        }
-      }
-    }
+            backgroundColor: '#F9FAFD',
+          },
+        },
+      },
+    },
   },
 });
 

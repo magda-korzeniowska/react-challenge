@@ -56,13 +56,13 @@ export class BudgetService {
   static remove({ ids }) {
     return ids.length === 1
       ? request({
-        method: 'DELETE',
-        path: `/budget/${ids[0]}`,
-      })
+          method: 'DELETE',
+          path: `/budget/${ids[0]}`,
+        })
       : request({
-        method: 'DELETE',
-        path: `/budget`,
-        body: { ids },
-      });
+          method: 'DELETE',
+          path: `/budget`,
+          body: { ids },
+        });
   }
 }

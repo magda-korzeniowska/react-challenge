@@ -94,7 +94,7 @@ export const BudgetPage = () => {
           <Grid item xs={12}>
             {(isLoading || isFetching) && <Loader />}
             {isError && <Error />}
-            {!data?.length && <NoContent />}
+            {data?.length === 0 && <NoContent />}
 
             {data?.length > 0 && (
               <Table

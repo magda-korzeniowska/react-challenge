@@ -15,13 +15,26 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { LedgerService } from 'api';
 
 export const LedgerWidget = () => {
+
+  const queryClient = useQueryClient();
+
   const { isLoading, isFetching, isError, data } = useQuery('ledgerData', () =>
     LedgerService.findAll(),
   );
+
+  const deleteData = (ids) => {
+    return LedgerService.remove({ ids });
+  };
+
+  const { mutate } = useMutation(deleteData, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('ledgerData');
+    },
+  });
 
   const headCells = [
     {
@@ -90,7 +103,7 @@ export const LedgerWidget = () => {
           headCells={headCells}
           rows={data}
           getUniqueId={(element) => element.id}
-          deleteRecords={() => null}
+          deleteRecords={(ids) => mutate(ids)}
         />
       )}
     </Card>

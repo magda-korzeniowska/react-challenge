@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -15,10 +16,24 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { Box } from '@mui/material';
+import { AddNewLedgerRecord } from './AddNewLedgerRecord.modal';
 import { LedgerService } from 'api';
 
 export const LedgerWidget = () => {
+  const [isOpen, setOpen] = useState(false);
+  const [type, setType] = useState('');
+
+  const handleOpenIncomeModal = () => {
+    setOpen(true);
+    setType('INCOME');
+  }
+
+  const handleOpenExpenseModal = () => {
+    setOpen(true);
+    setType('EXPENSES');
+  }
+
+  const handleClose = () => setOpen(false);
 
   const queryClient = useQueryClient();
 
@@ -61,7 +76,12 @@ export const LedgerWidget = () => {
       id: 'amount',
       label: 'Kwota',
       renderCell: (row) => (
-        <Box sx={{ display: 'flex', color: row.mode === 'INCOME' ? 'green' : 'red', }}>
+        <Box
+          sx={{
+            display: 'flex',
+            color: row.mode === 'INCOME' ? 'green' : 'red',
+          }}
+        >
           {row.mode === 'INCOME' ? '+' : '-'}
           <Money inCents={row.amountInCents} />
         </Box>
@@ -83,12 +103,21 @@ export const LedgerWidget = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <Button variant="outlined" startIcon={<AddIcon />}>
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={handleOpenIncomeModal}
+              >
                 Wpłać
               </Button>
-              <Button variant="outlined" startIcon={<RemoveIcon />}>
+              <Button
+                variant="outlined"
+                startIcon={<RemoveIcon />}
+                onClick={handleOpenExpenseModal}
+              >
                 Wypłać
               </Button>
+              <AddNewLedgerRecord type={type} isOpen={isOpen} handleClose={handleClose}/>
             </Box>
           )}
         />

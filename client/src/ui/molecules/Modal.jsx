@@ -17,6 +17,7 @@ const style = {
 };
 
 export const Modal = ({
+  title,
   description,
   handleClose,
   children,
@@ -26,7 +27,7 @@ export const Modal = ({
   return (
     <MuiModal open={isOpen} onClose={handleClose}>
       <>
-        <Card style={style} title={description}>
+        <Card style={style} title={title} subheader={description}>
           <CardContent>{children}</CardContent>
           <CardActions
             sx={{

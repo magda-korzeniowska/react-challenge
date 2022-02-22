@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import AddIcon from '@mui/icons-material/Add';
+import { Grid } from '@mui/material';
 
 import {
   ActionHeader,
@@ -15,10 +16,14 @@ import {
   Page,
   Table,
 } from 'ui';
-import { Grid } from '@mui/material';
+import { AddNewBudgetRecord } from 'ui/organisms/AddNewBudgetRecord.modal';
 import { BudgetService } from 'api';
 
 export const BudgetPage = () => {
+  const [isOpen, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const queryClient = useQueryClient();
 
   const { isLoading, data, isError, isFetching } = useQuery('budgetData', () =>
@@ -83,9 +88,19 @@ export const BudgetPage = () => {
             variant={'h1'}
             title="Twój budżet"
             renderActions={() => (
-              <Button variant="contained" startIcon={<AddIcon />}>
-                Zdefiniuj budżet
-              </Button>
+              <>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={handleOpen}
+                >
+                  Zdefiniuj budżet
+                </Button>
+                <AddNewBudgetRecord
+                  isOpen={isOpen}
+                  handleClose={handleClose}
+                />
+              </>
             )}
           />
         }

@@ -1,13 +1,20 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 
 import { Modal } from 'ui/molecules/Modal';
 
-export const AddNewBudgetRecord = ({ type, isOpen, handleClose }) => {
+export const AddNewBudgetRecord = ({ isOpen, handleClose }) => {
   return (
     <Modal
       title={'Zdefiniuj budżet'}
       isOpen={isOpen}
       handleClose={handleClose}
-    ></Modal>
+      saveBtnDisabled={false}
+    />
   );
+};
+
+AddNewBudgetRecord.propTypes = {
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func,
 };

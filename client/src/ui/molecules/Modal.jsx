@@ -1,20 +1,10 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import MuiModal from '@mui/material/Modal';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 import { Button, Card } from 'ui';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 450,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-};
 
 export const Modal = ({
   title,
@@ -22,12 +12,24 @@ export const Modal = ({
   handleClose,
   children,
   isOpen,
-  disabled,
+  saveBtnDisabled,
 }) => {
   return (
     <MuiModal open={isOpen} onClose={handleClose}>
       <>
-        <Card style={style} title={title} subheader={description}>
+        <Card
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 450,
+            boxShadow: 24,
+          }}
+          title={title}
+          subheader={description}
+          variant={{ variant: 'h4' }}
+        >
           <CardContent>{children}</CardContent>
           <CardActions
             sx={{
@@ -40,7 +42,11 @@ export const Modal = ({
             <Button variant="outlined" onClick={handleClose}>
               Anuluj
             </Button>
-            <Button variant="contained" onSubmit={null}>
+            <Button
+              variant="contained"
+              onSubmit={null}
+              disabled={saveBtnDisabled}
+            >
               Zapisz
             </Button>
           </CardActions>
@@ -48,4 +54,12 @@ export const Modal = ({
       </>
     </MuiModal>
   );
+};
+
+Modal.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  handleClose: PropTypes.func,
+  isOpen: PropTypes.bool,
+  saveBtnDisabled: PropTypes.bool,
 };

@@ -26,12 +26,12 @@ export const LedgerWidget = () => {
   const handleOpenIncomeModal = () => {
     setOpen(true);
     setType('INCOME');
-  }
+  };
 
   const handleOpenExpenseModal = () => {
     setOpen(true);
     setType('EXPENSES');
-  }
+  };
 
   const handleClose = () => setOpen(false);
 
@@ -61,10 +61,7 @@ export const LedgerWidget = () => {
       id: 'category',
       label: 'Kategoria',
       renderCell: (row) => (
-        <CategoryCell
-          color={row.category?.color}
-          name={row.mode !== 'INCOME' ? row.category?.name : 'Wpływ'}
-        />
+        <CategoryCell color={row.category?.color} name={row.category?.name} />
       ),
     },
     {
@@ -117,7 +114,11 @@ export const LedgerWidget = () => {
               >
                 Wypłać
               </Button>
-              <AddNewLedgerRecord type={type} isOpen={isOpen} handleClose={handleClose}/>
+              <AddNewLedgerRecord
+                type={type}
+                isOpen={isOpen}
+                handleClose={handleClose}
+              />
             </Box>
           )}
         />

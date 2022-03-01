@@ -96,10 +96,7 @@ export const BudgetPage = () => {
                 >
                   Zdefiniuj budżet
                 </Button>
-                <AddNewBudgetRecord
-                  isOpen={isOpen}
-                  handleClose={handleClose}
-                />
+                <AddNewBudgetRecord isOpen={isOpen} handleClose={handleClose} />
               </>
             )}
           />

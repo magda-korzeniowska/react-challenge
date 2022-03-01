@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import { Modal } from 'ui/molecules/Modal';
+import { Modal } from '../molecules/Modal';
 
 export const AddNewBudgetRecord = ({ isOpen, handleClose }) => {
   return (

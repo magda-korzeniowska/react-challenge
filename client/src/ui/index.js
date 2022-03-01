@@ -11,6 +11,7 @@ export { NoContent } from './atoms/NoContent';
 export { Card } from './atoms/Card';
 
 // molecules
+export { CategoryField } from './molecules/CategoryField';
 export { CategoryCell } from './molecules/CategoryCell';
 export { Table } from './molecules/table/Table';
 export { Modal } from './molecules/Modal';

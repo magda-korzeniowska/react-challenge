@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   OnModuleInit,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -50,6 +51,14 @@ export class BudgetController implements OnModuleInit {
   @ApiCreatedResponse()
   @Post()
   create(@Body() createBudgetDto: CreateBudgetDto) {
+    const isAlreadyAssigned = !!this.budgetService.query(
+      (q) => q.categoryId === createBudgetDto.categoryId,
+    ).length;
+
+    if (isAlreadyAssigned) {
+      throw new BadRequestException('CategoryId already assigned to budget');
+    }
+
     const budget = this.budgetService.create({
       amountInCents: createBudgetDto.amountInCents,
       categoryId: createBudgetDto.categoryId,
@@ -126,10 +135,16 @@ export class BudgetController implements OnModuleInit {
   @ApiOkResponse()
   @Delete(':id')
   remove(@Param('id') id) {
-    const category = this.categoryService.query(
-      (category) => category.budgetId === id,
-    );
-    this.categoryService.updateMany(category);
+    this.categoryService.records = this.categoryService
+      .getAll()
+      .map((cateogry) => {
+        if (id !== cateogry.budgetId) return cateogry;
+
+        return {
+          ...cateogry,
+          budgetId: null,
+        };
+      });
     return this.budgetService.delete(id);
   }
 
@@ -140,16 +155,16 @@ export class BudgetController implements OnModuleInit {
   @ApiOkResponse()
   @Delete('')
   removeMany(@Body() { ids }) {
-    const categories = this.categoryService.getAll().map((cateogry) => {
-      if (!ids.includes(cateogry.budgetId)) return cateogry;
+    this.categoryService.records = this.categoryService
+      .getAll()
+      .map((cateogry) => {
+        if (!ids.includes(cateogry.budgetId)) return cateogry;
 
-      return {
-        ...cateogry,
-        budgetId: null,
-      };
-    });
-
-    this.categoryService.updateMany(categories);
+        return {
+          ...cateogry,
+          budgetId: null,
+        };
+      });
     this.budgetService.deleteMany(ids);
   }
 }

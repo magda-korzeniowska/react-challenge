@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import AddIcon from '@mui/icons-material/Add';
+import { Grid } from '@mui/material';
 
 import {
   ActionHeader,
+  AddNewBudgetRecord,
   Button,
   Card,
   CategoryCell,
@@ -15,10 +17,11 @@ import {
   Page,
   Table,
 } from 'ui';
-import { Grid } from '@mui/material';
 import { BudgetService } from 'api';
 
 export const BudgetPage = () => {
+  const [isOpen, setOpen] = useState(false);
+
   const queryClient = useQueryClient();
 
   const { isLoading, data, isError, isFetching } = useQuery('budgetData', () =>
@@ -83,9 +86,15 @@ export const BudgetPage = () => {
             variant={'h1'}
             title="Twój budżet"
             renderActions={() => (
-              <Button variant="contained" startIcon={<AddIcon />}>
-                Zdefiniuj budżet
-              </Button>
+              <>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => setOpen(true)}
+                >
+                  Zdefiniuj budżet
+                </Button>
+              </>
             )}
           />
         }
@@ -94,7 +103,7 @@ export const BudgetPage = () => {
           <Grid item xs={12}>
             {(isLoading || isFetching) && <Loader />}
             {isError && <Error />}
-            {!data?.length && <NoContent />}
+            {data?.length === 0 && <NoContent />}
 
             {data?.length > 0 && (
               <Table
@@ -104,6 +113,10 @@ export const BudgetPage = () => {
                 deleteRecords={(budgetsToRemove) => mutate(budgetsToRemove)}
               />
             )}
+            <AddNewBudgetRecord
+              isOpen={isOpen}
+              handleClose={() => setOpen(false)}
+            />
           </Grid>
         </Grid>
       </Card>

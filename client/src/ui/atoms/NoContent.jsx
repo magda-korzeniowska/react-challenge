@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, CardMedia, Typography } from '@mui/material';
 
 import {theme} from "../../theme";
-import noContentImg from '../../assets/no_content.png';
+import noContentImg from 'assets/no_content.png';
 
 export const NoContent = () => {
   return (

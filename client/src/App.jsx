@@ -1,7 +1,7 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import Router from './pages/routing';
 import { theme } from 'theme';

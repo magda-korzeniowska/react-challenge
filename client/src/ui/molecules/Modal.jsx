@@ -6,6 +6,15 @@ import CardContent from '@mui/material/CardContent';
 
 import { Button, Card } from 'ui';
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 450,
+  boxShadow: 24,
+}
+
 export const Modal = ({
   title,
   description,
@@ -18,32 +27,24 @@ export const Modal = ({
     <MuiModal open={isOpen} onClose={handleClose}>
       <>
         <Card
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 450,
-            boxShadow: 24,
-          }}
+          sx={style}
           title={title}
           subheader={description}
           variant={{ variant: 'h4' }}
         >
-          <CardContent>{children}</CardContent>
+          <CardContent sx={{ mt: 2, mb: 2 }}>{children}</CardContent>
           <CardActions
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
-              marginTop: '40px',
-              padding: '0px',
+              marginTop: 4,
+              padding: 0,
             }}
           >
-            <Button variant="outlined" onClick={handleClose}>
+            <Button variant="outlined" onClick={handleClose} sx={{ marginRight: 1 }}>
               Anuluj
             </Button>
             <Button
-              variant="contained"
               onSubmit={null}
               disabled={saveBtnDisabled}
             >

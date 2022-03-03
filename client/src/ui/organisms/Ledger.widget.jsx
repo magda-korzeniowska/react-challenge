@@ -6,6 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 import {
   ActionHeader,
+  AddNewLedgerRecord,
   Button,
   Card,
   CategoryCell,
@@ -16,24 +17,16 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { AddNewLedgerRecord } from './AddNewLedgerRecord.modal';
 import { LedgerService } from 'api';
 
 export const LedgerWidget = () => {
   const [isOpen, setOpen] = useState(false);
   const [type, setType] = useState('');
 
-  const handleOpenIncomeModal = () => {
+  const handleOpenModal = (modalType) => {
     setOpen(true);
-    setType('INCOME');
+    setType(modalType);
   };
-
-  const handleOpenExpenseModal = () => {
-    setOpen(true);
-    setType('EXPENSES');
-  };
-
-  const handleClose = () => setOpen(false);
 
   const queryClient = useQueryClient();
 
@@ -76,7 +69,7 @@ export const LedgerWidget = () => {
         <Box
           sx={{
             display: 'flex',
-            color: row.mode === 'INCOME' ? 'green' : 'red',
+            color: row.mode === 'INCOME' ? 'success.main' : 'error.main',
           }}
         >
           {row.mode === 'INCOME' ? '+' : '-'}
@@ -103,22 +96,17 @@ export const LedgerWidget = () => {
               <Button
                 variant="outlined"
                 startIcon={<AddIcon />}
-                onClick={handleOpenIncomeModal}
+                onClick={() => handleOpenModal('INCOME')}
               >
                 Wpłać
               </Button>
               <Button
                 variant="outlined"
                 startIcon={<RemoveIcon />}
-                onClick={handleOpenExpenseModal}
+                onClick={() => handleOpenModal('EXPENSES')}
               >
                 Wypłać
               </Button>
-              <AddNewLedgerRecord
-                type={type}
-                isOpen={isOpen}
-                handleClose={handleClose}
-              />
             </Box>
           )}
         />
@@ -136,6 +124,11 @@ export const LedgerWidget = () => {
           deleteRecords={(ids) => mutate(ids)}
         />
       )}
+      <AddNewLedgerRecord
+        type={type}
+        isOpen={isOpen}
+        handleClose={() => setOpen(false)}
+      />
     </Card>
   );
 };

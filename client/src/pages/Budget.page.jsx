@@ -5,6 +5,7 @@ import { Grid } from '@mui/material';
 
 import {
   ActionHeader,
+  AddNewBudgetRecord,
   Button,
   Card,
   CategoryCell,
@@ -16,13 +17,10 @@ import {
   Page,
   Table,
 } from 'ui';
-import { AddNewBudgetRecord } from 'ui/organisms/AddNewBudgetRecord.modal';
 import { BudgetService } from 'api';
 
 export const BudgetPage = () => {
   const [isOpen, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const queryClient = useQueryClient();
 
@@ -92,11 +90,10 @@ export const BudgetPage = () => {
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
-                  onClick={handleOpen}
+                  onClick={() => setOpen(true)}
                 >
                   Zdefiniuj budżet
                 </Button>
-                <AddNewBudgetRecord isOpen={isOpen} handleClose={handleClose} />
               </>
             )}
           />
@@ -116,6 +113,10 @@ export const BudgetPage = () => {
                 deleteRecords={(budgetsToRemove) => mutate(budgetsToRemove)}
               />
             )}
+            <AddNewBudgetRecord
+              isOpen={isOpen}
+              handleClose={() => setOpen(false)}
+            />
           </Grid>
         </Grid>
       </Card>

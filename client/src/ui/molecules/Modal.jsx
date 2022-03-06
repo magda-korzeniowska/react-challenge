@@ -22,6 +22,7 @@ export const Modal = ({
   children,
   isOpen,
   saveBtnDisabled,
+  onSubmit
 }) => {
   return (
     <MuiModal open={isOpen} onClose={handleClose}>
@@ -45,7 +46,7 @@ export const Modal = ({
               Anuluj
             </Button>
             <Button
-              onSubmit={null}
+              onClick={onSubmit}
               disabled={saveBtnDisabled}
             >
               Zapisz

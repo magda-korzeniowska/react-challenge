@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { FormInputText, Modal } from 'ui';
 
 export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
-  const { handleSubmit, reset, control } = useForm();
+  // const { handleSubmit, reset, control } = useForm();
   // const onSubmit = (value) => console.log(value);
 
   return (
@@ -35,20 +35,6 @@ export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
     </Modal>
   );
 };
-
-// return (
-//   <form>
-//     <Controller
-//       name={"textValue"}
-//       control={control}
-//       render={({ field: { onChange, value } }) => (
-//         <TextField onChange={onChange} value={value} label={"Text Value"} />
-//       )}
-//     />
-//     <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-//     <Button onClick={() => reset()} variant={"outlined"}>Reset</Button>
-//   </form>
-// );
 
 AddNewLedgerRecord.propTypes = {
   type: PropTypes.string,

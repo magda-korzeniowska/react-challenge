@@ -1,14 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 import { Button as MuiButton } from '@mui/material';
 export function Button({ children, ...props }) {
-  return (
-    <MuiButton {...props}>
-      {children}
-    </MuiButton>
-  )
-};
+  return <MuiButton {...props}>{children}</MuiButton>;
+}
 
 Button.propTypes = {
   variant: PropTypes.string,

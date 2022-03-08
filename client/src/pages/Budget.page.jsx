@@ -116,6 +116,7 @@ export const BudgetPage = () => {
             <AddNewBudgetRecord
               isOpen={isOpen}
               handleClose={() => setOpen(false)}
+              budgetsInUse={data}
             />
           </Grid>
         </Grid>

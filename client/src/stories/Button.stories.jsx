@@ -47,7 +47,7 @@ export default {
     //   },
     // },
     onClick: {
-      action: 'clicked'
+      action: 'clicked',
     },
   },
 };

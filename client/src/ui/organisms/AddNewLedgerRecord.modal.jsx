@@ -6,8 +6,8 @@ import TextField from '@mui/material/TextField';
 import { FormInputText, Modal } from 'ui';
 
 export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
-  // const { handleSubmit, reset, control } = useForm();
-  // const onSubmit = (value) => console.log(value);
+  const { handleSubmit, reset, control } = useForm();
+  const onSubmit = (value) => console.log(value);
 
   return (
     <Modal
@@ -15,9 +15,9 @@ export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
       isOpen={isOpen}
       handleClose={handleClose}
       saveBtnDisabled={false}
-      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
     >
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           render={({ field: { name, value, onChange } }) => (
             <TextField
@@ -31,10 +31,24 @@ export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
           name={'name'}
           defaultValue=""
         />
-      </form> */}
+      </form>
     </Modal>
   );
 };
+
+// return (
+//   <form>
+//     <Controller
+//       name={"textValue"}
+//       control={control}
+//       render={({ field: { onChange, value } }) => (
+//         <TextField onChange={onChange} value={value} label={"Text Value"} />
+//       )}
+//     />
+//     <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+//     <Button onClick={() => reset()} variant={"outlined"}>Reset</Button>
+//   </form>
+// );
 
 AddNewLedgerRecord.propTypes = {
   type: PropTypes.string,

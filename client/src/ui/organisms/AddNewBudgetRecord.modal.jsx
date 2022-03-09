@@ -1,35 +1,65 @@
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Controller, useForm } from 'react-hook-form';
-import * as PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
 import { CategoryCell, FormSelect, Modal } from 'ui';
-import { CategoryService } from 'api';
+import { BudgetService, CategoryService } from 'api';
+import { formatDollarsToCents } from 'utils';
 
 export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
-  const { handleSubmit, reset, control } = useForm();
-  const onSubmit = (value) => console.log(value);
 
-  const { data } = useQuery('categoryData', () => CategoryService.findAll());
+  const { handleSubmit, reset, control, formState } = useForm({
+    mode: 'onChange',
+  });
+
+  const { data: categoryList } = useQuery('categoryData', () =>
+    CategoryService.findAll(),
+  );
 
   let categoriesInUse = budgetsInUse?.map((category) => category.category);
-  let newCategories = data?.filter(
+  let unusedCategories = categoryList?.filter(
     (obj1) => !categoriesInUse?.some((obj2) => obj1.id === obj2.id),
   );
+
+  const queryClient = useQueryClient();
+
+  const createBudget = (newBudget) => {
+    return BudgetService.create({ requestBody: newBudget });
+  };
+
+  const { mutate } = useMutation(createBudget, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('budgetData');
+      reset();
+      handleClose();
+    },
+  });
+
+  const onSubmit = (values) => {
+    const parsedValues = {
+      // ...values,
+      amountInCents: formatDollarsToCents(parseInt(values.amountInCents)),
+      categoryId: values.categoryId,
+    };
+    mutate(parsedValues);
+  };
 
   return (
     <Modal
       title={'Zdefiniuj budżet'}
       isOpen={isOpen}
       handleClose={handleClose}
-      saveBtnDisabled={false}
+      saveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'spaceBetween',
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'spaceBetween',
         }}
       >
         <Controller
@@ -46,30 +76,33 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
               error={!!error}
               helperText={error?.message}
               type="number"
-              sx={{ marginBottom: '30px'}}
+              sx={{ marginBottom: '30px' }}
             />
           )}
           control={control}
-          name={'amount'}
+          name={'amountInCents'}
           defaultValue=""
           rules={{
             required: { value: true, message: 'Kwota nie może być pusta' },
-            min: { value: 0, message: 'Kwota musi być większa niż 0'},
-            max: { value: 1000000, message: 'Kwota nie może być większa niż 1000000'}
+            min: { value: 0, message: 'Kwota musi być większa niż 0' },
+            max: {
+              value: 1000000,
+              message: 'Kwota nie może być większa niż 1000000',
+            },
           }}
         />
 
         <FormSelect
-          name="category"
+          name="categoryId"
           label="Wybierz kategorię"
           control={control}
-          defaultValue=""
+          defaultValue={''}
           rules={{
             required: { value: true, message: 'Wybierz kategorię' },
           }}
         >
-          {newCategories?.map((category) => (
-            <MenuItem key={category.name} value={category.name}>
+          {unusedCategories?.map((category) => (
+            <MenuItem key={category.id} value={category.id}>
               <CategoryCell color={category.color} name={category.name} />
             </MenuItem>
           ))}
@@ -77,9 +110,4 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
       </form>
     </Modal>
   );
-};
-
-AddNewBudgetRecord.propTypes = {
-  isOpen: PropTypes.bool,
-  handleClose: PropTypes.func,
 };

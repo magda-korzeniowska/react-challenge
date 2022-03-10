@@ -1,57 +1,119 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import { Controller, useForm } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import MenuItem from '@mui/material/MenuItem';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import { FormInputText, Modal } from 'ui';
+import { CategoryService, LedgerService } from 'api';
+import { formatDollarsToCents } from 'utils';
+import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 
-export const AddNewLedgerRecord = ({ type, isOpen, handleClose }) => {
-  const { handleSubmit, reset, control } = useForm();
-  const onSubmit = (value) => console.log(value);
+export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
+  const { data: categoryList } = useQuery('categoryData', () =>
+    CategoryService.findAll(),
+  );
+
+  const queryClient = useQueryClient();
+
+  const createLedger = (newLedger) => {
+    return LedgerService.create({ requestBody: newLedger });
+  };
+
+  const { mutate } = useMutation(createLedger, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('ledgerData');
+    },
+  });
+
+  const { handleSubmit, reset, control, formState } = useForm({
+    mode: 'onChange',
+  });
+
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
+  const onSubmit = (values) => {
+    const parsedValues = {
+      mode: type,
+      title: values.title,
+      amountInCents: formatDollarsToCents(parseInt(values.amountInCents)),
+      categoryId: values.categoryId,
+    };
+    mutate(parsedValues);
+    reset();
+    handleClose();
+  };
 
   return (
     <Modal
       title={type === 'INCOME' ? 'Dodaj wpływ' : 'Dodaj wydatek'}
       isOpen={isOpen}
       handleClose={handleClose}
-      saveBtnDisabled={false}
+      saveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          render={({ field: { name, value, onChange } }) => (
-            <TextField
-              name={name}
-              value={value}
-              onChange={onChange}
-              label={'Nazwa'}
-            />
-          )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'spaceBetween',
+        }}
+      >
+        <FormInputText
+          label={'Nazwa'}
+          name={'title'}
+          defaultValue={''}
           control={control}
-          name={'name'}
-          defaultValue=""
+          rules={{
+            required: { value: true, message: 'Nazwa nie może być pusta' },
+            pattern: {
+              value: /.*\S.*/,
+              message: 'Nazwa nie może być pusta',
+            },
+          }}
         />
+        <FormInputText
+          label={'Kwota'}
+          name={'amountInCents'}
+          defaultValue={''}
+          control={control}
+          type="number"
+          rules={{
+            required: { value: true, message: 'Kwota nie może być pusta' },
+            min: { value: 0, message: 'Kwota musi być większa niż 0' },
+            max: {
+              value: 1000000,
+              message: 'Kwota nie może być większa niż 1000000',
+            },
+          }}
+        />
+        {type === 'EXPENSE' && (
+          <FormSelect
+            name="categoryId"
+            label="Kategoria"
+            control={control}
+            defaultValue={''}
+            rules={{
+              required: { value: true, message: 'Wybierz kategorię' },
+            }}
+          >
+            {categoryList?.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                <CategoryCell color={category.color} name={category.name} />
+              </MenuItem>
+            ))}
+          </FormSelect>
+        )}
       </form>
     </Modal>
   );
 };
 
-// return (
-//   <form>
-//     <Controller
-//       name={"textValue"}
-//       control={control}
-//       render={({ field: { onChange, value } }) => (
-//         <TextField onChange={onChange} value={value} label={"Text Value"} />
-//       )}
-//     />
-//     <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-//     <Button onClick={() => reset()} variant={"outlined"}>Reset</Button>
-//   </form>
-// );
-
 AddNewLedgerRecord.propTypes = {
   type: PropTypes.string,
   isOpen: PropTypes.bool,
-  handleClose: PropTypes.func,
+  onClose: PropTypes.func,
 };

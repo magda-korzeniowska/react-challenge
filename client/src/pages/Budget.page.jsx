@@ -32,6 +32,11 @@ export const BudgetPage = () => {
     return BudgetService.remove({ ids: budgetsToRemove });
   };
 
+  //   const { refetch, data: categoryList } = useQuery('categoryData', () =>
+  //   CategoryService.findAll(true),
+  //   { enabled: false }
+  // );
+
   const { mutate } = useMutation(deleteBudget, {
     onSuccess: () => {
       queryClient.invalidateQueries('budgetData');
@@ -115,8 +120,8 @@ export const BudgetPage = () => {
             )}
             <AddNewBudgetRecord
               isOpen={isOpen}
-              handleClose={() => setOpen(false)}
-              budgetsInUse={data}
+              onClose={() => setOpen(false)}
+              // categoryList={categoryList}
             />
           </Grid>
         </Grid>

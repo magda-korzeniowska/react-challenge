@@ -1,29 +1,32 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { Controller, useForm } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
-import { CategoryCell, FormSelect, Modal } from 'ui';
+import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 import { BudgetService, CategoryService } from 'api';
 import { formatDollarsToCents } from 'utils';
 
-export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
-
+export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
   const { handleSubmit, reset, control, formState } = useForm({
     mode: 'onChange',
   });
 
-  const { data: categoryList } = useQuery('categoryData', () =>
-    CategoryService.findAll(),
-  );
-
-  let categoriesInUse = budgetsInUse?.map((category) => category.category);
-  let unusedCategories = categoryList?.filter(
-    (obj1) => !categoriesInUse?.some((obj2) => obj1.id === obj2.id),
-  );
-
   const queryClient = useQueryClient();
+
+  const { refetch, data: categoryList } = useQuery('categoryData', () =>
+    CategoryService.findAll(true),
+  );
+
+  // let categoriesInUse = budgetsInUse?.map((category) => category.category);
+  // let unusedCategories = categoryList?.filter(
+  //   (obj1) => !categoriesInUse?.some((obj2) => obj1.id === obj2.id),
+  // );
+
+  // let unusedCategories = categoryList?.filter(
+  //   (obj) => obj.budgetId === null
+  // )
 
   const createBudget = (newBudget) => {
     return BudgetService.create({ requestBody: newBudget });
@@ -32,18 +35,23 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
   const { mutate } = useMutation(createBudget, {
     onSuccess: () => {
       queryClient.invalidateQueries('budgetData');
-      reset();
-      handleClose();
+
+      refetch();
     },
   });
 
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
   const onSubmit = (values) => {
     const parsedValues = {
-      // ...values,
       amountInCents: formatDollarsToCents(parseInt(values.amountInCents)),
       categoryId: values.categoryId,
     };
     mutate(parsedValues);
+    handleClose();
   };
 
   return (
@@ -54,6 +62,7 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
       saveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
+      {console.log('unusedCategories: ', categoryList)}
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
@@ -62,26 +71,12 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
           alignItems: 'spaceBetween',
         }}
       >
-        <Controller
-          render={({
-            field: { ref, value, onChange },
-            fieldState: { error },
-            formState,
-          }) => (
-            <TextField
-              inputRef={ref}
-              value={value}
-              onChange={onChange}
-              label={'Kwota'}
-              error={!!error}
-              helperText={error?.message}
-              type="number"
-              sx={{ marginBottom: '30px' }}
-            />
-          )}
-          control={control}
+        <FormInputText
+          label={'Kwota'}
           name={'amountInCents'}
-          defaultValue=""
+          defaultValue={''}
+          control={control}
+          type="number"
           rules={{
             required: { value: true, message: 'Kwota nie może być pusta' },
             min: { value: 0, message: 'Kwota musi być większa niż 0' },
@@ -91,17 +86,16 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
             },
           }}
         />
-
         <FormSelect
           name="categoryId"
-          label="Wybierz kategorię"
+          label="Kategoria"
           control={control}
           defaultValue={''}
           rules={{
             required: { value: true, message: 'Wybierz kategorię' },
           }}
         >
-          {unusedCategories?.map((category) => (
+          {categoryList?.map((category) => (
             <MenuItem key={category.id} value={category.id}>
               <CategoryCell color={category.color} name={category.name} />
             </MenuItem>
@@ -110,4 +104,9 @@ export const AddNewBudgetRecord = ({ isOpen, handleClose, budgetsInUse }) => {
       </form>
     </Modal>
   );
+};
+
+AddNewBudgetRecord.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
 };

@@ -2,8 +2,14 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 
-export const FormInputText = ({ label, name, defaultValue, rules, control, type }) => {
-
+export const FormInputText = ({
+  label,
+  name,
+  defaultValue,
+  rules,
+  control,
+  type,
+}) => {
   return (
     <Controller
       control={control}
@@ -29,5 +35,3 @@ export const FormInputText = ({ label, name, defaultValue, rules, control, type 
     />
   );
 };
-
-

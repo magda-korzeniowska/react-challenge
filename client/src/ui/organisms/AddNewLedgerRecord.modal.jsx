@@ -9,11 +9,11 @@ import { formatDollarsToCents } from 'utils';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 
 export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
+  const queryClient = useQueryClient();
+
   const { data: categoryList } = useQuery('categoryData', () =>
     CategoryService.findAll(),
   );
-
-  const queryClient = useQueryClient();
 
   const createLedger = (newLedger) => {
     return LedgerService.create({ requestBody: newLedger });
@@ -35,6 +35,7 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
   };
 
   const onSubmit = (values) => {
+    console.log('Values: ', values);
     const parsedValues = {
       mode: type,
       title: values.title,
@@ -42,7 +43,6 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
       categoryId: values.categoryId,
     };
     mutate(parsedValues);
-    reset();
     handleClose();
   };
 

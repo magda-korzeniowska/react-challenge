@@ -1,42 +1,28 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
-import { BudgetService, CategoryService } from 'api';
+import { BudgetService} from 'api';
 import { formatDollarsToCents } from 'utils';
 
-export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
+export const AddNewBudgetRecord = ({ isOpen, onClose, categoryList, refetchCategories }) => {
   const { handleSubmit, reset, control, formState } = useForm({
     mode: 'onChange',
   });
 
   const queryClient = useQueryClient();
 
-  const { refetch, data: categoryList } = useQuery('categoryData', () =>
-    CategoryService.findAll(true),
-  );
-
-  // let categoriesInUse = budgetsInUse?.map((category) => category.category);
-  // let unusedCategories = categoryList?.filter(
-  //   (obj1) => !categoriesInUse?.some((obj2) => obj1.id === obj2.id),
-  // );
-
-  // let unusedCategories = categoryList?.filter(
-  //   (obj) => obj.budgetId === null
-  // )
-
   const createBudget = (newBudget) => {
     return BudgetService.create({ requestBody: newBudget });
   };
 
   const { mutate } = useMutation(createBudget, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('budgetData');
-
-      refetch();
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('budgetData');
+      refetchCategories();
     },
   });
 
@@ -62,7 +48,6 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
       saveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
-      {console.log('unusedCategories: ', categoryList)}
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{

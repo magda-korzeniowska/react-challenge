@@ -21,6 +21,7 @@
     "cypress:run": "cypress run",
     "start": "run-p -l start:server start:client",
     "start:ci": "run-p -l start:server:ci start:client:ci",
+    "test": "cd client && npm run test",
     "build": "run-p -l build:server build:client",
     "lint:server:fix": "npm run lint:fix --prefix server",
     "lint:client:fix": "npm run lint:fix --prefix client",

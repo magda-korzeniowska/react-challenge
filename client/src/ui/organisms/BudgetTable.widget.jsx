@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { BUDGET_QUERY } from 'queryKeys';
+import { BUDGET_QUERY, PARTIAL_CATEGORIES_QUERY } from 'queryKeys';
 import { BudgetService } from 'api';
 import { Loader } from 'ui/atoms/Loader';
 import { Error } from 'ui/atoms/Error';
@@ -20,6 +20,7 @@ export const BudgetTableWidget = () => {
   const mutation = useMutation((ids) => BudgetService.remove({ ids }), {
     onSuccess: async () => {
       await queryClient.refetchQueries([BUDGET_QUERY]);
+      await queryClient.refetchQueries([PARTIAL_CATEGORIES_QUERY]);
     },
   });
 

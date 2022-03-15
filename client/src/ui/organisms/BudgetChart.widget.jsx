@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { Bar } from 'react-chartjs-2';
 
@@ -8,28 +8,33 @@ import { Card, Loader, Error, NoContent } from 'ui';
 import { BUDGET_QUERY } from 'queryKeys';
 
 export const BudgetChartWidget = () => {
-  const { isLoading, error, data } = useQuery(BUDGET_QUERY, () =>
-    BudgetService.findAll(),
+  const { isLoading, error, data } = useQuery(
+    BUDGET_QUERY,
+    () => BudgetService.findAll(),
+    {
+      select: React.useCallback((response) => {
+        const data = response.map(
+          ({ currentSpendingPercent }) => currentSpendingPercent,
+        );
+
+        return {
+          chartData: {
+            labels: response.map(({ category }) => `${category.name} %`),
+            datasets: [
+              {
+                axis: 'y',
+                data: data,
+                fill: false,
+                backgroundColor: response.map(({ category }) => category.color),
+                borderWidth: 0,
+              },
+            ],
+          },
+          hasData: !!data.length,
+        };
+      }, []),
+    },
   );
-
-  const getDataForChart = useCallback(() => {
-    if (!data) return;
-
-    return {
-      labels: data.map(({ category }) => `${category.name} %`),
-      datasets: [
-        {
-          axis: 'y',
-          data: data.map(
-            ({ currentSpendingPercent }) => currentSpendingPercent,
-          ),
-          fill: false,
-          backgroundColor: data.map(({ category }) => category.color),
-          borderWidth: 0,
-        },
-      ],
-    };
-  }, [data]);
 
   return (
     <Card
@@ -38,9 +43,10 @@ export const BudgetChartWidget = () => {
     >
       {isLoading && <Loader />}
       {!isLoading && error && <Error error={error} />}
-      {!isLoading && !error && !getDataForChart() && <NoContent />}
-
-      {!error && !isLoading && getDataForChart() && (
+      {!isLoading && !error && (!data || !data.hasData) && (
+        <Typography>Brak wyników</Typography>
+      )}
+      {!error && !isLoading && data && data.hasData && (
         <Grid
           container
           direction="row"
@@ -49,7 +55,7 @@ export const BudgetChartWidget = () => {
         >
           <Bar
             type={'bar'}
-            data={getDataForChart()}
+            data={data.chartData}
             options={{
               indexAxis: 'y',
               responsive: true,

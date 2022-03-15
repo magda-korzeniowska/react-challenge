@@ -8,38 +8,41 @@ import { SummaryService } from 'api';
 import { formatCentsToDollars } from 'utils';
 import { SUMMARY_QUERY } from 'queryKeys';
 
-function mapToChartDataset(summary) {
-  if (!summary) return;
-
-  const { colors, labels, data } = summary.spending.reduce(
-    (acc, curr) => ({
-      colors: [...(acc.colors || []), curr.categoryColor],
-      labels: [...(acc.labels || []), curr.categoryName],
-      data: [...(acc.data || []), formatCentsToDollars(curr.amountInCents)],
-    }),
-    {},
-  );
-
-  return {
-    chartData: {
-      datasets: [
-        {
-          label: labels,
-          data: data,
-          backgroundColor: colors,
-          borderWidth: 0,
-        },
-      ],
-    },
-    summary,
-  };
-}
-
 export const SummaryChartWidget = () => {
-  const { isLoading, error, data } = useQuery(SUMMARY_QUERY, async () => {
-    const summary = await SummaryService.findAll();
-    return mapToChartDataset(summary);
-  });
+  const { isLoading, error, data } = useQuery(
+    SUMMARY_QUERY,
+    () => SummaryService.findAll(),
+    {
+      select: React.useCallback((response) => {
+        const { colors, labels, data } = response.spending.reduce(
+          (acc, curr) => ({
+            colors: [...(acc.colors || []), curr.categoryColor],
+            labels: [...(acc.labels || []), curr.categoryName],
+            data: [
+              ...(acc.data || []),
+              formatCentsToDollars(curr.amountInCents),
+            ],
+          }),
+          {},
+        );
+
+        return {
+          chartData: {
+            datasets: [
+              {
+                label: labels,
+                data: data,
+                backgroundColor: colors,
+                borderWidth: 0,
+              },
+            ],
+          },
+          exists: !!response.spending.length,
+          summary: response,
+        };
+      }, []),
+    },
+  );
 
   return (
     <Card
@@ -61,10 +64,10 @@ export const SummaryChartWidget = () => {
       {isLoading && <Loader />}
       {!isLoading && error && <Error error={error} />}
       <Grid container mt={4}>
-        {!isLoading && !error && !data?.summary?.spending.length && (
-          <Typography>Brak wydatków</Typography>
+        {!isLoading && !error && (!data || !data.exists) && (
+          <Typography>Brak wyników</Typography>
         )}
-        {!isLoading && !error && !!data?.summary?.spending.length && (
+        {!isLoading && !error && data && data.exists && (
           <>
             <Grid item xs={12} alignItems={'center'}>
               <Doughnut

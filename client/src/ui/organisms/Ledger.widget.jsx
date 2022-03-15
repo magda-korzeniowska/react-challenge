@@ -18,7 +18,7 @@ import {
   Card,
 } from 'ui';
 import { LedgerService } from 'api';
-import { BUDGET_QUERY, LEDGER_QUERY } from 'queryKeys';
+import { BUDGET_QUERY, LEDGER_QUERY, SUMMARY_QUERY } from 'queryKeys';
 
 export const LedgerWidget = () => {
   const [modalVisible, toggleModal] = useState(false);
@@ -34,6 +34,7 @@ export const LedgerWidget = () => {
     onSuccess: async () => {
       await queryClient.refetchQueries([LEDGER_QUERY]);
       await queryClient.refetchQueries([BUDGET_QUERY]);
+      await queryClient.refetchQueries([SUMMARY_QUERY]);
     },
   });
 

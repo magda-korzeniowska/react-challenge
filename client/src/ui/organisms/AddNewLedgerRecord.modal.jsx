@@ -7,7 +7,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { CategoryService, LedgerService } from 'api';
 import { Modal, CategoryField, Loader, Error, NoContent } from 'ui';
 import { formatDollarsToCents } from 'utils';
-import { LEDGER_QUERY, CATEGORIES_QUERY, BUDGET_QUERY } from 'queryKeys';
+import {
+  LEDGER_QUERY,
+  CATEGORIES_QUERY,
+  BUDGET_QUERY,
+  SUMMARY_QUERY,
+} from 'queryKeys';
 
 const translationKeys = {
   income: 'wpływ',
@@ -31,6 +36,7 @@ export const AddNewLedgerRecordModal = ({ open, onClose, type }) => {
       onSuccess: async () => {
         await queryClient.refetchQueries([LEDGER_QUERY]);
         await queryClient.refetchQueries([BUDGET_QUERY]);
+        await queryClient.refetchQueries([SUMMARY_QUERY]);
         handleClose();
       },
     },

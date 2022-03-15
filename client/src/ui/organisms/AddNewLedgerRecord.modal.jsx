@@ -1,12 +1,12 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import MenuItem from '@mui/material/MenuItem';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import MenuItem from '@mui/material/MenuItem';
 
 import { CategoryService, LedgerService } from 'api';
-import { formatDollarsToCents } from 'utils';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
+import { formatDollarsToCents } from 'utils';
 
 export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
   const queryClient = useQueryClient();
@@ -35,7 +35,6 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
   };
 
   const onSubmit = (values) => {
-    console.log('Values: ', values);
     const parsedValues = {
       mode: type,
       title: values.title,
@@ -63,9 +62,9 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
         }}
       >
         <FormInputText
-          label={'Nazwa'}
-          name={'title'}
-          defaultValue={''}
+          label="Nazwa"
+          name="title"
+          defaultValue=""
           control={control}
           rules={{
             required: { value: true, message: 'Nazwa nie może być pusta' },
@@ -76,9 +75,9 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
           }}
         />
         <FormInputText
-          label={'Kwota'}
-          name={'amountInCents'}
-          defaultValue={''}
+          label="Kwota"
+          name="amountInCents"
+          defaultValue=""
           control={control}
           type="number"
           rules={{
@@ -95,7 +94,7 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
             name="categoryId"
             label="Kategoria"
             control={control}
-            defaultValue={''}
+            defaultValue=""
             rules={{
               required: { value: true, message: 'Wybierz kategorię' },
             }}

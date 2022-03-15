@@ -4,15 +4,16 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
+import { BudgetService } from 'api';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
-import { BudgetService} from 'api';
 import { formatDollarsToCents } from 'utils';
 
-export const AddNewBudgetRecord = ({ isOpen, onClose, categoryList, refetchCategories }) => {
-  const { handleSubmit, reset, control, formState } = useForm({
-    mode: 'onChange',
-  });
-
+export const AddNewBudgetRecord = ({
+  isOpen,
+  onClose,
+  categoryList,
+  refetchCategories,
+}) => {
   const queryClient = useQueryClient();
 
   const createBudget = (newBudget) => {
@@ -24,6 +25,10 @@ export const AddNewBudgetRecord = ({ isOpen, onClose, categoryList, refetchCateg
       await queryClient.invalidateQueries('budgetData');
       refetchCategories();
     },
+  });
+
+  const { handleSubmit, reset, control, formState } = useForm({
+    mode: 'onChange',
   });
 
   const handleClose = () => {
@@ -57,9 +62,9 @@ export const AddNewBudgetRecord = ({ isOpen, onClose, categoryList, refetchCateg
         }}
       >
         <FormInputText
-          label={'Kwota'}
-          name={'amountInCents'}
-          defaultValue={''}
+          label="Kwota"
+          name="amountInCents"
+          defaultValue=""
           control={control}
           type="number"
           rules={{
@@ -75,7 +80,7 @@ export const AddNewBudgetRecord = ({ isOpen, onClose, categoryList, refetchCateg
           name="categoryId"
           label="Kategoria"
           control={control}
-          defaultValue={''}
+          defaultValue=""
           rules={{
             required: { value: true, message: 'Wybierz kategorię' },
           }}

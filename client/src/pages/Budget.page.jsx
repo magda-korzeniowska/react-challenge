@@ -24,12 +24,11 @@ export const BudgetPage = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, data, isError, isFetching } = useQuery(
-    'budgetData',
-    () => BudgetService.findAll(),
+  const { isLoading, data, isError, isFetching } = useQuery('budgetData', () =>
+    BudgetService.findAll(),
   );
 
-  const { refetch: refetchCategories, data: categoryList } = useQuery(
+  const { data: categoryList, refetch: refetchCategories } = useQuery(
     'categoryData',
     () => CategoryService.findAll(true),
   );

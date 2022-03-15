@@ -17,12 +17,11 @@ export const FormInputText = ({
       defaultValue={defaultValue}
       rules={rules}
       render={({
-        field: { ref, value, onChange },
+        field: { value, onChange },
         fieldState: { error },
         formState,
       }) => (
         <TextField
-          inputRef={ref}
           value={value}
           label={label}
           type={type}

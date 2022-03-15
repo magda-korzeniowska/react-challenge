@@ -19,7 +19,7 @@ export const FormSelect = ({
       <InputLabel id={labelId}>{label}</InputLabel>
       <Controller
         render={({
-          field: { ref, onChange, value },
+          field: { value, onChange },
           fieldState: { error },
         }) => (
           <>
@@ -29,7 +29,6 @@ export const FormSelect = ({
               onChange={onChange}
               value={value}
               error={!!error}
-              inputRef={ref}
             >
               {children}
             </Select>

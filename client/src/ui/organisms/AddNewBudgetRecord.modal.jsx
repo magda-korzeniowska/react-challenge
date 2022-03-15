@@ -99,4 +99,6 @@ export const AddNewBudgetRecord = ({
 AddNewBudgetRecord.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+  categoryList: PropTypes.array,
+  refetchCategories: PropTypes.func
 };

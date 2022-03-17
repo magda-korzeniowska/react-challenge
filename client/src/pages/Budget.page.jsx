@@ -17,7 +17,7 @@ import {
   Page,
   Table,
 } from 'ui';
-import { BudgetService, CategoryService } from 'api';
+import { BudgetService } from 'api';
 
 export const BudgetPage = () => {
   const [isOpen, setOpen] = useState(false);
@@ -28,11 +28,6 @@ export const BudgetPage = () => {
     BudgetService.findAll(),
   );
 
-  const { data: categoryList, refetch: refetchCategories } = useQuery(
-    'categoryData',
-    () => CategoryService.findAll(true),
-  );
-
   const deleteBudget = (budgetsToRemove) => {
     return BudgetService.remove({ ids: budgetsToRemove });
   };
@@ -40,7 +35,7 @@ export const BudgetPage = () => {
   const { mutate } = useMutation(deleteBudget, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('budgetData');
-      refetchCategories();
+      await queryClient.invalidateQueries('partialCategoryData');
     },
   });
 
@@ -122,8 +117,8 @@ export const BudgetPage = () => {
             <AddNewBudgetRecord
               isOpen={isOpen}
               onClose={() => setOpen(false)}
-              categoryList={categoryList}
-              refetchCategories={refetchCategories}
+              // categoryList={categoryList}
+              // refetchCategories={refetchCategories}
             />
           </Grid>
         </Grid>

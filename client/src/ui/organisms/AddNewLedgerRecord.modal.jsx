@@ -30,18 +30,17 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
   });
 
   const handleClose = () => {
-    onClose();
     reset();
+    onClose();
   };
 
   const onSubmit = (values) => {
-    const parsedValues = {
+    mutate({
       mode: type,
       title: values.title,
       amountInCents: formatDollarsToCents(parseInt(values.amountInCents)),
       categoryId: values.categoryId,
-    };
-    mutate(parsedValues);
+    });
     handleClose();
   };
 
@@ -81,6 +80,7 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
           control={control}
           type="number"
           rules={{
+            setValueAs: (value) => value.trim(),
             required: { value: true, message: 'Kwota nie może być pusta' },
             min: { value: 0, message: 'Kwota musi być większa niż 0' },
             max: {

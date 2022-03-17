@@ -18,8 +18,7 @@ export const FormInputText = ({
       rules={rules}
       render={({
         field: { value, onChange },
-        fieldState: { error },
-        formState,
+        fieldState: { error }
       }) => (
         <TextField
           value={value}
@@ -27,7 +26,7 @@ export const FormInputText = ({
           type={type}
           onChange={onChange}
           error={!!error}
-          helperText={error?.message}
+          helperText={error ? error.message : null}
           sx={{ marginBottom: '30px' }}
         />
       )}

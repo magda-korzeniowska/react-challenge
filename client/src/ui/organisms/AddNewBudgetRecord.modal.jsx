@@ -1,29 +1,28 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
-import { BudgetService } from 'api';
+import { BudgetService, CategoryService } from 'api';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 import { formatDollarsToCents } from 'utils';
 
-export const AddNewBudgetRecord = ({
-  isOpen,
-  onClose,
-  categoryList,
-  refetchCategories,
-}) => {
+export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
 
   const createBudget = (newBudget) => {
     return BudgetService.create({ requestBody: newBudget });
   };
 
+  const { data: categoryList } = useQuery('partialCategoryData', () =>
+    CategoryService.findAll(true),
+  );
+
   const { mutate } = useMutation(createBudget, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('budgetData');
-      refetchCategories();
+      await queryClient.invalidateQueries('partialCategoryData');
     },
   });
 
@@ -32,16 +31,15 @@ export const AddNewBudgetRecord = ({
   });
 
   const handleClose = () => {
-    onClose();
     reset();
+    onClose();
   };
 
   const onSubmit = (values) => {
-    const parsedValues = {
+    mutate({
       amountInCents: formatDollarsToCents(parseInt(values.amountInCents)),
       categoryId: values.categoryId,
-    };
-    mutate(parsedValues);
+    });
     handleClose();
   };
 
@@ -86,7 +84,7 @@ export const AddNewBudgetRecord = ({
           }}
         >
           {categoryList?.map((category) => (
-            <MenuItem key={category.id} value={category.id}>
+            <MenuItem key={`category---${category.id}`} value={category.id}>
               <CategoryCell color={category.color} name={category.name} />
             </MenuItem>
           ))}
@@ -99,6 +97,4 @@ export const AddNewBudgetRecord = ({
 AddNewBudgetRecord.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-  categoryList: PropTypes.array,
-  refetchCategories: PropTypes.func,
 };

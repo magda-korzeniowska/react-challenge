@@ -16,10 +16,7 @@ export const FormInputText = ({
       name={name}
       defaultValue={defaultValue}
       rules={rules}
-      render={({
-        field: { value, onChange },
-        fieldState: { error }
-      }) => (
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
         <TextField
           value={value}
           label={label}

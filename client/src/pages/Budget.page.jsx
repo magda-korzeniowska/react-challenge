@@ -33,8 +33,9 @@ export const BudgetPage = () => {
   };
 
   const { mutate } = useMutation(deleteBudget, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('budgetData');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('budgetData');
+      await queryClient.invalidateQueries('partialCategoryData');
     },
   });
 
@@ -115,7 +116,9 @@ export const BudgetPage = () => {
             )}
             <AddNewBudgetRecord
               isOpen={isOpen}
-              handleClose={() => setOpen(false)}
+              onClose={() => setOpen(false)}
+              // categoryList={categoryList}
+              // refetchCategories={refetchCategories}
             />
           </Grid>
         </Grid>

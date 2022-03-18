@@ -13,7 +13,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 450,
   boxShadow: 24,
-}
+};
 
 export const Modal = ({
   title,
@@ -22,6 +22,7 @@ export const Modal = ({
   children,
   isOpen,
   saveBtnDisabled,
+  onSubmit,
 }) => {
   return (
     <MuiModal open={isOpen} onClose={handleClose}>
@@ -41,13 +42,14 @@ export const Modal = ({
               padding: 0,
             }}
           >
-            <Button variant="outlined" onClick={handleClose} sx={{ marginRight: 1 }}>
+            <Button
+              variant="outlined"
+              onClick={handleClose}
+              sx={{ marginRight: 1 }}
+            >
               Anuluj
             </Button>
-            <Button
-              onSubmit={null}
-              disabled={saveBtnDisabled}
-            >
+            <Button onClick={onSubmit} disabled={saveBtnDisabled}>
               Zapisz
             </Button>
           </CardActions>

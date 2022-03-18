@@ -39,8 +39,8 @@ export const LedgerWidget = () => {
   };
 
   const { mutate } = useMutation(deleteData, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('ledgerData');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('ledgerData');
     },
   });
 
@@ -103,7 +103,7 @@ export const LedgerWidget = () => {
               <Button
                 variant="outlined"
                 startIcon={<RemoveIcon />}
-                onClick={() => handleOpenModal('EXPENSES')}
+                onClick={() => handleOpenModal('EXPENSE')}
               >
                 Wypłać
               </Button>
@@ -127,7 +127,7 @@ export const LedgerWidget = () => {
       <AddNewLedgerRecord
         type={type}
         isOpen={isOpen}
-        handleClose={() => setOpen(false)}
+        onClose={() => setOpen(false)}
       />
     </Card>
   );

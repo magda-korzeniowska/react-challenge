@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, CardMedia, Typography } from '@mui/material';
 
-import {theme} from "../../theme";
+import { theme } from '../../theme';
 import noContentImg from 'assets/no_content.png';
 
 export const NoContent = () => {
@@ -12,17 +12,17 @@ export const NoContent = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        height: '600px'
+        height: '600px',
       }}
     >
       <CardMedia
         component="img"
         sx={{ width: 202 }}
         src={noContentImg}
-        alt=''
+        alt=""
       />
       <Typography
-        variant='body1'
+        variant="body1"
         sx={{
           color: theme.palette.grey.level4,
         }}

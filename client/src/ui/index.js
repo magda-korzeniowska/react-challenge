@@ -14,6 +14,8 @@ export { Card } from './atoms/Card';
 export { CategoryCell } from './molecules/CategoryCell';
 export { Table } from './molecules/table/Table';
 export { Modal } from './molecules/Modal';
+export { FormInputText } from './molecules/form/components/FormInputText';
+export { FormSelect } from './molecules/form/components/FormSelect';
 
 // organisms
 export { AppBar } from './organisms/AppBar';

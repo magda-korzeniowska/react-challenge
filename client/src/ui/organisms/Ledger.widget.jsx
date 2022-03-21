@@ -41,6 +41,7 @@ export const LedgerWidget = () => {
   const { mutate } = useMutation(deleteData, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('ledgerData');
+      await queryClient.invalidateQueries('summaryData');
     },
   });
 

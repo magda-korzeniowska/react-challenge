@@ -6,6 +6,7 @@ import { Grid } from '@mui/material';
 import {
   ActionHeader,
   AddNewBudgetRecord,
+  BudgetSummary,
   Button,
   Card,
   CategoryCell,
@@ -114,11 +115,10 @@ export const BudgetPage = () => {
                 deleteRecords={(budgetsToRemove) => mutate(budgetsToRemove)}
               />
             )}
+            <BudgetSummary budgetData={data} />
             <AddNewBudgetRecord
               isOpen={isOpen}
               onClose={() => setOpen(false)}
-              // categoryList={categoryList}
-              // refetchCategories={refetchCategories}
             />
           </Grid>
         </Grid>

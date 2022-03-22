@@ -12,8 +12,20 @@ import { formatCentsToDollars } from 'utils';
 export const LedgerSummary = () => {
   Chart.register(ArcElement, Tooltip, Legend);
 
-  const { data: summaryData } = useQuery('summaryData', () =>
-    SummaryService.findAll(),
+  // const transformData = (data) => {
+  //   const balance = data?.balance;
+  //   const labels = data?.spending.map((value) => value.categoryName);
+  //   const amounts = data?.spending.map((value) => value.amountInCents);
+  //   const colors = data?.spending.map((value) => value.categoryColor);
+  //   return [balance, labels, amounts, colors]
+  // }
+
+  const { data: summaryData } = useQuery(
+    'summaryData',
+    () => SummaryService.findAll(),
+    {
+      // select: transformData
+    },
   );
 
   const data = {
@@ -52,33 +64,33 @@ export const LedgerSummary = () => {
           },
         },
       },
-      title: {
-        display: true,
-        text: 'Test chart',
-        position: 'top',
-      },
     },
   };
 
   return (
-    <Card
-      title={
-        <ActionHeader
-          variant={'h2'}
-          title="Saldo"
-          renderActions={() => (
-            <Typography variant="h2" align="left">
-              <Money inCents={summaryData?.balance} />
-            </Typography>
-          )}
-        />
-      }
-      subheader="Pozostała kwota"
-    >
-      <Box sx={{ height: '400px', paddingTop: 3 }}>
-        <Doughnut data={data} options={options} />
-        {console.log(summaryData)}
-      </Box>
-    </Card>
+    <Box>
+      {summaryData?.spending.length === 0 && <Card title="Brak wyników" />}
+      {summaryData?.spending.length > 0 && (
+        <Card
+          title={
+            <ActionHeader
+              variant={'h2'}
+              title="Saldo"
+              renderActions={() => (
+                <Typography variant="h2" align="left">
+                  <Money inCents={summaryData?.balance} />
+                </Typography>
+              )}
+            />
+          }
+          subheader="Pozostała kwota"
+        >
+          <Box sx={{ height: '400px', paddingTop: 3 }}>
+            <Doughnut data={data} options={options} />
+            {console.log(summaryData)}
+          </Box>
+        </Card>
+      )}
+    </Box>
   );
 };

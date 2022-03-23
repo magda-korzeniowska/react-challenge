@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Box } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -10,9 +11,14 @@ import {
 } from 'chart.js';
 
 import { ActionHeader, Card } from 'ui';
+import { BudgetService } from 'api';
 
-export const BudgetSummary = ({ budgetData }) => {
+export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);
+
+  const { data: budgetData } = useQuery('budgetData', () =>
+    BudgetService.findAll(),
+  );
 
   const data = {
     labels: budgetData?.map((value) => `${value.category.name} %`),
@@ -31,7 +37,7 @@ export const BudgetSummary = ({ budgetData }) => {
       x: {
         ticks: {
           font: {
-            size: 16,
+            size: 12,
           },
           stepSize: 50,
         },
@@ -39,7 +45,7 @@ export const BudgetSummary = ({ budgetData }) => {
       y: {
         ticks: {
           font: {
-            size: 16,
+            size: 12,
           },
         },
       },
@@ -63,25 +69,14 @@ export const BudgetSummary = ({ budgetData }) => {
       {budgetData?.length === 0 && <Card title="Brak wyników" />}
       {budgetData?.length > 0 && (
         <Card
-          title={<ActionHeader variant={'h2'} title="Budżet" />}
+          title={<ActionHeader variant={'h4'} title="Budżet" />}
           subheader="Podsumowanie wydatków"
         >
-          <Box sx={{ height: '400px', paddingTop: 3 }}>
+          <Box sx={{ paddingTop: 3 }}>
             <Bar data={data} options={options} />
           </Box>
         </Card>
       )}
     </Box>
   );
-
-  // return (
-  //   <Card
-  //     title={<ActionHeader variant={'h2'} title="Budżet" />}
-  //     subheader="Podsumowanie wydatków"
-  //   >
-  //     <Box sx={{ height: '400px', paddingTop: 3 }}>
-  //       <Bar data={data} options={options} />
-  //     </Box>
-  //   </Card>
-  // );
 };

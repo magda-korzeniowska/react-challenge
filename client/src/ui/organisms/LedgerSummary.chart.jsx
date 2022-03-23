@@ -45,7 +45,6 @@ export const LedgerSummary = () => {
     ],
   };
 
-
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -63,7 +62,7 @@ export const LedgerSummary = () => {
         labels: {
           usePointStyle: true,
           font: {
-            size: 16,
+            size: 14,
           },
         },
       },
@@ -95,7 +94,6 @@ export const LedgerSummary = () => {
       {summaryData?.spending.length === 0 && <Card title="Brak wyników" />}
       {summaryData?.spending.length > 0 && (
         <Card
-          sx={{ minWidth: '30vw', width: '100%' }}
           title={
             <ActionHeader
               variant={'h4'}
@@ -109,7 +107,7 @@ export const LedgerSummary = () => {
           }
           subheader="Pozostała kwota"
         >
-          <Box sx={{ height: '350px', paddingTop: 3 }}>
+          <Box sx={{ height: '300px', paddingTop: 3 }}>
             <Doughnut data={data} options={options} />
           </Box>
         </Card>

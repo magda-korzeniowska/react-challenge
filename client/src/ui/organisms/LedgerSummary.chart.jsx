@@ -20,12 +20,14 @@ export const LedgerSummary = () => {
   //   return [balance, labels, amounts, colors]
   // }
 
+  // const [balance, labels, amounts, colors] = transformData()
+
   const { data: summaryData } = useQuery(
     'summaryData',
     () => SummaryService.findAll(),
-    {
-      // select: transformData
-    },
+    // {
+    //   select: transformData
+    // },
   );
 
   const data = {
@@ -43,6 +45,7 @@ export const LedgerSummary = () => {
     ],
   };
 
+
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -55,29 +58,50 @@ export const LedgerSummary = () => {
       },
       legend: {
         display: true,
-        position: 'left',
+        position: 'bottom',
         align: 'start',
         labels: {
           usePointStyle: true,
           font: {
-            size: 20,
+            size: 16,
           },
         },
       },
+      // legendDistance: {
+      //   padding: 20,
+      // },
     },
   };
+
+  // const plugins = [
+  //   {
+  //     id: 'legendDistance',
+  //     beforeInit(chart, args, opts) {
+  //       // Get reference to the original fit function
+  //       const originalFit = chart.legend.fit;
+  //       // Override the fit function
+  //       chart.legend.fit = function fit() {
+  //         // Call original function and bind scope in order to use `this` correctly inside it
+  //         originalFit.bind(chart.legend)();
+  //         // Specify what you want to change, whether the height or width
+  //         this.height += opts.padding || 0;
+  //       };
+  //     },
+  //   },
+  // ];
 
   return (
     <Box>
       {summaryData?.spending.length === 0 && <Card title="Brak wyników" />}
       {summaryData?.spending.length > 0 && (
         <Card
+          sx={{ minWidth: '30vw', width: '100%' }}
           title={
             <ActionHeader
-              variant={'h2'}
+              variant={'h4'}
               title="Saldo"
               renderActions={() => (
-                <Typography variant="h2" align="left">
+                <Typography variant="h4" align="left">
                   <Money inCents={summaryData?.balance} />
                 </Typography>
               )}
@@ -85,9 +109,8 @@ export const LedgerSummary = () => {
           }
           subheader="Pozostała kwota"
         >
-          <Box sx={{ height: '400px', paddingTop: 3 }}>
+          <Box sx={{ height: '350px', paddingTop: 3 }}>
             <Doughnut data={data} options={options} />
-            {console.log(summaryData)}
           </Box>
         </Card>
       )}

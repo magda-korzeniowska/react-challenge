@@ -9,7 +9,7 @@ export const Card = ({ title, subheader, children, variant, ...props }) => {
         titleTypographyProps={variant}
         subheader={subheader}
         subheaderTypographyProps={{
-          variant: 'h5',
+          variant: 'subtitle1',
         }}
       />
       {children}

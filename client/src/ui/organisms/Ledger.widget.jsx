@@ -42,6 +42,7 @@ export const LedgerWidget = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries('ledgerData');
       await queryClient.invalidateQueries('summaryData');
+      await queryClient.invalidateQueries('budgetData');
     },
   });
 

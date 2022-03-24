@@ -12,34 +12,27 @@ import { formatCentsToDollars } from 'utils';
 export const LedgerSummary = () => {
   Chart.register(ArcElement, Tooltip, Legend);
 
-  // const transformData = (data) => {
-  //   const balance = data?.balance;
-  //   const labels = data?.spending.map((value) => value.categoryName);
-  //   const amounts = data?.spending.map((value) => value.amountInCents);
-  //   const colors = data?.spending.map((value) => value.categoryColor);
-  //   return [balance, labels, amounts, colors]
-  // }
-
-  // const [balance, labels, amounts, colors] = transformData()
-
   const { data: summaryData } = useQuery(
     'summaryData',
     () => SummaryService.findAll(),
-    // {
-    //   select: transformData
-    // },
+    {
+      select: (data) => {
+        return {
+          balance: data?.balance,
+          labels: data?.spending.map((value) => value.categoryName),
+          amounts: data?.spending.map((value) => formatCentsToDollars(value.amountInCents)),
+          colors: data?.spending.map((value) => value.categoryColor)
+        };
+      },
+    },
   );
 
   const data = {
-    labels: summaryData?.spending.map((value) => value.categoryName),
+    labels: summaryData?.labels,
     datasets: [
       {
-        data: summaryData?.spending.map((value) =>
-          formatCentsToDollars(value.amountInCents),
-        ),
-        backgroundColor: summaryData?.spending.map(
-          (value) => value.categoryColor,
-        ),
+        data: summaryData?.amounts,
+        backgroundColor: summaryData?.colors,
         hoverOffset: 4,
       },
     ],
@@ -91,8 +84,8 @@ export const LedgerSummary = () => {
 
   return (
     <Box>
-      {summaryData?.spending.length === 0 && <Card title="Brak wyników" />}
-      {summaryData?.spending.length > 0 && (
+      {summaryData?.labels.length === 0 && <Card title="Brak wyników" />}
+      {summaryData?.labels.length > 0 && (
         <Card
           title={
             <ActionHeader

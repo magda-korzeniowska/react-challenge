@@ -23,19 +23,21 @@ export const BudgetSummary = () => {
       select: (data) => {
         return {
           labels: data?.map((value) => value.category.name),
-          currentSpendingPercent: data?.map((value) => value.currentSpendingPercent),
-          colors: data?.map((value) => value.category.color)
+          currentSpendingPercent: data?.map(
+            (value) => value.currentSpendingPercent,
+          ),
+          colors: data?.map((value) => value.category.color),
         };
       },
     },
   );
 
-    const data = {
-    labels: budgetData?.labels.map((label) => `${label} %` ),
+  const data = {
+    labels: budgetData?.labels.map((label) => `${label} %`),
     datasets: [
       {
         data: budgetData?.currentSpendingPercent,
-        backgroundColor: budgetData?.colors
+        backgroundColor: budgetData?.colors,
       },
     ],
   };

@@ -16,16 +16,26 @@ import { BudgetService } from 'api';
 export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);
 
-  const { data: budgetData } = useQuery('budgetData', () =>
-    BudgetService.findAll(),
+  const { data: budgetData } = useQuery(
+    'budgetData',
+    () => BudgetService.findAll(),
+    {
+      select: (data) => {
+        return {
+          labels: data?.map((value) => value.category.name),
+          currentSpendingPercent: data?.map((value) => value.currentSpendingPercent),
+          colors: data?.map((value) => value.category.color)
+        };
+      },
+    },
   );
 
-  const data = {
-    labels: budgetData?.map((value) => `${value.category.name} %`),
+    const data = {
+    labels: budgetData?.labels.map((label) => `${label} %` ),
     datasets: [
       {
-        data: budgetData?.map((value) => value.currentSpendingPercent),
-        backgroundColor: budgetData?.map((value) => value.category.color),
+        data: budgetData?.currentSpendingPercent,
+        backgroundColor: budgetData?.colors
       },
     ],
   };
@@ -66,8 +76,8 @@ export const BudgetSummary = () => {
 
   return (
     <Box>
-      {budgetData?.length === 0 && <Card title="Brak wyników" />}
-      {budgetData?.length > 0 && (
+      {budgetData?.labels.length === 0 && <Card title="Brak wyników" />}
+      {budgetData?.labels.length !== 0 && (
         <Card
           title={<ActionHeader variant={'h4'} title="Budżet" />}
           subheader="Podsumowanie wydatków"

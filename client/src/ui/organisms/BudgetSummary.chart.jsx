@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart,
@@ -78,17 +79,23 @@ export const BudgetSummary = () => {
 
   return (
     <Box>
-      {budgetData?.labels.length === 0 && <Card title="Brak wyników" />}
-      {budgetData?.labels.length !== 0 && (
-        <Card
-          title={<ActionHeader variant={'h4'} title="Budżet" />}
-          subheader="Podsumowanie wydatków"
-        >
-          <Box sx={{ paddingTop: 3 }}>
-            <Bar data={data} options={options} />
-          </Box>
-        </Card>
-      )}
+      <Card
+        title={<ActionHeader variant={'h4'} title="Budżet" />}
+        subheader="Podsumowanie wydatków"
+      >
+        {(budgetData?.labels.length === 0 ||
+          budgetData?.currentSpendingPercent.every((item) => item === 0)) && (
+          <Typography variant={'h5'} marginTop={4} align={'center'}>
+            Brak wyników
+          </Typography>
+        )}
+        {budgetData?.labels.length > 0 &&
+          !budgetData?.currentSpendingPercent.every((item) => item === 0) && (
+            <Box sx={{ paddingTop: 3 }}>
+              <Bar data={data} options={options} />
+            </Box>
+          )}
+      </Card>
     </Box>
   );
 };

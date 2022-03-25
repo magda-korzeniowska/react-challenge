@@ -20,8 +20,10 @@ export const LedgerSummary = () => {
         return {
           balance: data?.balance,
           labels: data?.spending.map((value) => value.categoryName),
-          amounts: data?.spending.map((value) => formatCentsToDollars(value.amountInCents)),
-          colors: data?.spending.map((value) => value.categoryColor)
+          amounts: data?.spending.map((value) =>
+            formatCentsToDollars(value.amountInCents),
+          ),
+          colors: data?.spending.map((value) => value.categoryColor),
         };
       },
     },
@@ -84,27 +86,31 @@ export const LedgerSummary = () => {
 
   return (
     <Box>
-      {summaryData?.labels.length === 0 && <Card title="Brak wyników" />}
-      {summaryData?.labels.length > 0 && (
-        <Card
-          title={
-            <ActionHeader
-              variant={'h4'}
-              title="Saldo"
-              renderActions={() => (
-                <Typography variant="h4" align="left">
-                  <Money inCents={summaryData?.balance} />
-                </Typography>
-              )}
-            />
-          }
-          subheader="Pozostała kwota"
-        >
+      <Card
+        title={
+          <ActionHeader
+            variant={'h4'}
+            title="Saldo"
+            renderActions={() => (
+              <Typography variant="h3" align="left">
+                <Money inCents={summaryData?.balance} />
+              </Typography>
+            )}
+          />
+        }
+        subheader="Pozostała kwota"
+      >
+        {summaryData?.labels.length === 0 && (
+          <Typography variant={'h5'} marginTop={4} align={'center'}>
+            Brak wyników
+          </Typography>
+        )}
+        {summaryData?.labels.length > 0 && (
           <Box sx={{ height: '300px', paddingTop: 3 }}>
             <Doughnut data={data} options={options} />
           </Box>
-        </Card>
-      )}
+        )}
+      </Card>
     </Box>
   );
 };

@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { SummaryService } from 'api';
-import { ActionHeader, Card, Money } from 'ui';
+import { ActionHeader, Card, CategoryCell, Money } from 'ui';
 import { formatCentsToDollars } from 'utils';
 
 export const LedgerSummary = () => {
@@ -51,38 +51,10 @@ export const LedgerSummary = () => {
         },
       },
       legend: {
-        display: true,
-        position: 'bottom',
-        align: 'start',
-        labels: {
-          usePointStyle: true,
-          font: {
-            size: 14,
-          },
-        },
+        display: false,
       },
-      // legendDistance: {
-      //   padding: 20,
-      // },
     },
   };
-
-  // const plugins = [
-  //   {
-  //     id: 'legendDistance',
-  //     beforeInit(chart, args, opts) {
-  //       // Get reference to the original fit function
-  //       const originalFit = chart.legend.fit;
-  //       // Override the fit function
-  //       chart.legend.fit = function fit() {
-  //         // Call original function and bind scope in order to use `this` correctly inside it
-  //         originalFit.bind(chart.legend)();
-  //         // Specify what you want to change, whether the height or width
-  //         this.height += opts.padding || 0;
-  //       };
-  //     },
-  //   },
-  // ];
 
   return (
     <Box>
@@ -100,16 +72,23 @@ export const LedgerSummary = () => {
         }
         subheader="Pozostała kwota"
       >
-        {summaryData?.labels.length === 0 && (
+        {summaryData?.labels.length === 0 ? (
           <Typography variant={'h5'} marginTop={4} align={'center'}>
             Brak wyników
           </Typography>
-        )}
-        {summaryData?.labels.length > 0 && (
-          <Box sx={{ height: '300px', paddingTop: 3 }}>
+        ) : (
+          <Box sx={{ height: '250px', paddingTop: 3, paddingBottom: 3 }}>
             <Doughnut data={data} options={options} />
           </Box>
         )}
+        {summaryData?.colors.map((item, index) => (
+          <CategoryCell
+            key={`legend-${index}`}
+            size={'13px'}
+            color={item}
+            name={summaryData?.labels[index]}
+          />
+        ))}
       </Card>
     </Box>
   );

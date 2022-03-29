@@ -83,18 +83,16 @@ export const BudgetSummary = () => {
         title={<ActionHeader variant={'h4'} title="Budżet" />}
         subheader="Podsumowanie wydatków"
       >
-        {(budgetData?.labels.length === 0 ||
-          budgetData?.currentSpendingPercent.every((item) => item === 0)) && (
+        {budgetData?.labels.length === 0 ||
+        budgetData?.currentSpendingPercent.every((item) => item === 0) ? (
           <Typography variant={'h5'} marginTop={4} align={'center'}>
             Brak wyników
           </Typography>
+        ) : (
+          <Box sx={{ paddingTop: 3 }}>
+            <Bar data={data} options={options} />
+          </Box>
         )}
-        {budgetData?.labels.length > 0 &&
-          !budgetData?.currentSpendingPercent.every((item) => item === 0) && (
-            <Box sx={{ paddingTop: 3 }}>
-              <Bar data={data} options={options} />
-            </Box>
-          )}
       </Card>
     </Box>
   );

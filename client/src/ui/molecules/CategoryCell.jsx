@@ -3,9 +3,9 @@ import * as PropTypes from 'prop-types';
 import React from 'react';
 import { ColorBox } from '../atoms/ColorBox';
 
-export const CategoryCell = ({ color, name }) => {
+export const CategoryCell = ({ color, name, size }) => {
   return (
-    <Box display={'flex'} alignItems={'center'}>
+    <Box display={'flex'} alignItems={'center'} style={{fontSize: size}}>
       {color && <ColorBox color={color} />}
       {name}
     </Box>

@@ -4,11 +4,11 @@ import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
+  BarElement,
+  CategoryScale,
   Chart,
   LinearScale,
-  Tooltip,
-  CategoryScale,
-  BarElement,
+  Tooltip
 } from 'chart.js';
 
 import { ActionHeader, Card } from 'ui';

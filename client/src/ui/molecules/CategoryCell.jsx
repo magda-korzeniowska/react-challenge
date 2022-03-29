@@ -5,7 +5,7 @@ import { ColorBox } from '../atoms/ColorBox';
 
 export const CategoryCell = ({ color, name, size }) => {
   return (
-    <Box display={'flex'} alignItems={'center'} style={{fontSize: size}}>
+    <Box display={'flex'} alignItems={'center'} style={{ fontSize: size }}>
       {color && <ColorBox color={color} />}
       {name}
     </Box>

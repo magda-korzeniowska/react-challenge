@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
 import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -8,43 +8,38 @@ import {
   CategoryScale,
   Chart,
   LinearScale,
-  Tooltip
+  Tooltip,
 } from 'chart.js';
 
-import { ActionHeader, Card } from 'ui';
+import { ActionHeader, Card, Error, Loader } from 'ui';
 import { BudgetService } from 'api';
 
 export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);
 
-  const { data: budgetData } = useQuery(
-    'budgetData',
-    () => BudgetService.findAll(),
-    {
-      select: (data) => {
-        return {
-          labels: data?.map((value) => value.category.name),
-          currentSpendingPercent: data?.map(
-            (value) => value.currentSpendingPercent,
-          ),
-          colors: data?.map((value) => value.category.color),
-        };
-      },
-    },
-  );
-
-  const data = {
-    labels: budgetData?.labels.map((label) => `${label} %`),
-    datasets: [
-      {
-        data: budgetData?.currentSpendingPercent,
-        backgroundColor: budgetData?.colors,
-      },
-    ],
-  };
+  const {
+    data: budgetData,
+    isLoading,
+    error,
+  } = useQuery('budgetData', () => BudgetService.findAll(), {
+    select: useCallback((response) => {
+      return {
+        labels: response.map(({ category }) => `${category.name} %`),
+        datasets: [
+          {
+            data: response.map(
+              ({ currentSpendingPercent }) => currentSpendingPercent,
+            ),
+            backgroundColor: response.map(({ category }) => category.color),
+          },
+        ],
+      };
+    }, []),
+  });
 
   const options = {
     indexAxis: 'y',
+    maintainAspectRatio: true,
     responsive: true,
     scales: {
       x: {
@@ -78,22 +73,28 @@ export const BudgetSummary = () => {
   };
 
   return (
-    <Box>
-      <Card
-        title={<ActionHeader variant={'h4'} title="Budżet" />}
-        subheader="Podsumowanie wydatków"
-      >
-        {budgetData?.labels.length === 0 ||
-        budgetData?.currentSpendingPercent.every((item) => item === 0) ? (
+    <Card
+      title={<ActionHeader variant={'h4'} title="Budżet" />}
+      subheader="Podsumowanie wydatków"
+    >
+      {isLoading && <Loader />}
+      {!isLoading && error && <Error error={error} />}
+      {!isLoading &&
+        !error &&
+        (budgetData?.labels.length === 0 ||
+          budgetData?.datasets[0].data.every((item) => item === 0)) && (
           <Typography variant={'h5'} marginTop={4} align={'center'}>
             Brak wyników
           </Typography>
-        ) : (
+        )}
+      {!isLoading &&
+        !error &&
+        budgetData?.labels.length !== 0 &&
+        !budgetData?.datasets[0].data.every((item) => item === 0) && (
           <Box sx={{ paddingTop: 3 }}>
-            <Bar data={data} options={options} />
+            <Bar data={budgetData} options={options} />
           </Box>
         )}
-      </Card>
-    </Box>
+    </Card>
   );
 };

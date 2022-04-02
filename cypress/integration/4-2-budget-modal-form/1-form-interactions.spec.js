@@ -1,9 +1,6 @@
 context('Form content - on "Zdefiniuj budżet" button click', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      'http://localhost:4320/category?unlinkedToBudget=true',
-    ).as('category');
+    cy.intercept('GET', 'http://localhost:4320/category').as('category');
     cy.task('db:reset');
     cy.visit('/budget');
     cy.contains('Zdefiniuj budżet').click();

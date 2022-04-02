@@ -1,11 +1,14 @@
-context('Data storage- on "Wpłać" button click', () => {
+context('Failed mutations', () => {
   beforeEach(() => {
     cy.task('db:reset');
     cy.visit('/');
-    cy.contains('Wpłać').click();
   });
 
-  it('should save data and add new row to the table', () => {
+  it('should show notification when add ledger income record fails', () => {
+    cy.contains('Wpłać').click();
+
+    cy.intercept('POST', 'http://localhost:4320/ledger', { statusCode: 400 });
+
     cy.get('.MuiModal-root')
       .find('.MuiFormControl-root')
       .first()
@@ -21,24 +24,16 @@ context('Data storage- on "Wpłać" button click', () => {
       .should('have.value', '1000000');
 
     cy.get('.MuiModal-root').contains('Zapisz').click();
-    cy.get('.MuiModal-root').should('not.be.visible');
-    cy.get('tbody').children('.MuiTableRow-root').eq(0).contains('Test');
-    cy.get('tbody').children('.MuiTableRow-root').eq(0).contains('1000000');
-    cy.get('tbody')
-      .children('.MuiTableRow-root')
-      .eq(0)
-      .contains('Nieskategoryzowane');
-  });
-});
 
-context('Data storage- on "Wypłać" button click', () => {
-  beforeEach(() => {
-    cy.task('db:reset');
-    cy.visit('/');
+    cy.wait(150);
+
+    cy.contains('Wystąpił nieoczekiwany błąd').should('be.visible');
+  });
+  it('should show notification when add ledger expense record succeeds', () => {
     cy.contains('Wypłać').click();
-  });
 
-  it('should save data and add new row to the table', () => {
+    cy.intercept('POST', 'http://localhost:4320/ledger', { statusCode: 400 });
+
     cy.get('.MuiModal-root')
       .find('.MuiFormControl-root')
       .first()
@@ -62,9 +57,20 @@ context('Data storage- on "Wypłać" button click', () => {
       .should('have.value', '8');
 
     cy.get('.MuiModal-root').contains('Zapisz').click();
-    cy.get('.MuiModal-root').should('not.be.visible');
-    cy.get('tbody').children('.MuiTableRow-root').eq(0).contains('Test');
-    cy.get('tbody').children('.MuiTableRow-root').eq(0).contains('-1000000');
-    cy.get('tbody').children('.MuiTableRow-root').eq(0).contains('Różne');
+
+    cy.wait(150);
+
+    cy.contains('Wystąpił nieoczekiwany błąd').should('be.visible');
+  });
+
+  it('should show notification when remove ledger record fails', () => {
+    cy.intercept('DELETE', 'http://localhost:4320/ledger/*', {
+      statusCode: 400,
+    });
+
+    cy.get('tbody').find('input[type="checkbox"]').first().click();
+    cy.get('[data-testid="DeleteIcon"]').click();
+
+    cy.contains('Wystąpił nieoczekiwany błąd').should('be.visible');
   });
 });

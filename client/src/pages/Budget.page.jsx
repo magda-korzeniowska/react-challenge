@@ -117,8 +117,6 @@ export const BudgetPage = () => {
             <AddNewBudgetRecord
               isOpen={isOpen}
               onClose={() => setOpen(false)}
-              // categoryList={categoryList}
-              // refetchCategories={refetchCategories}
             />
           </Grid>
         </Grid>

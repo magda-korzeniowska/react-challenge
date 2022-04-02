@@ -41,6 +41,8 @@ export const LedgerWidget = () => {
   const { mutate } = useMutation(deleteData, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('ledgerData');
+      await queryClient.invalidateQueries('summaryData');
+      await queryClient.invalidateQueries('budgetData');
     },
   });
 
@@ -81,6 +83,10 @@ export const LedgerWidget = () => {
 
   return (
     <Card
+      sx={{
+        minHeight: '80vh',
+        height: '100%',
+      }}
       title={
         <ActionHeader
           variant={'h1'}

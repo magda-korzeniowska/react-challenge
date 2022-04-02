@@ -22,6 +22,7 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
   const { mutate } = useMutation(createLedger, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('ledgerData');
+      await queryClient.invalidateQueries('summaryData');
     },
   });
 

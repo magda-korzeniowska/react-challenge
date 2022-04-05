@@ -18,10 +18,13 @@ import {
   Table,
 } from 'ui';
 import { LedgerService } from 'api';
+import { useNotification } from 'hooks';
 
 export const LedgerWidget = () => {
   const [isOpen, setOpen] = useState(false);
   const [type, setType] = useState('');
+
+  const showSnackbar = useNotification();
 
   const handleOpenModal = (modalType) => {
     setOpen(true);
@@ -43,7 +46,9 @@ export const LedgerWidget = () => {
       await queryClient.invalidateQueries('ledgerData');
       await queryClient.invalidateQueries('summaryData');
       await queryClient.invalidateQueries('budgetData');
+      showSnackbar('delete');
     },
+    onError: () => showSnackbar('error'),
   });
 
   const headCells = [

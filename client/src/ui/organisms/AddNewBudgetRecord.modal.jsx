@@ -7,8 +7,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { BudgetService, CategoryService } from 'api';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 import { formatDollarsToCents } from 'utils';
+import { useNotification } from 'hooks';
 
 export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
+  const showSnackbar = useNotification();
   const queryClient = useQueryClient();
 
   const createBudget = (newBudget) => {
@@ -23,7 +25,9 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries('budgetData');
       await queryClient.invalidateQueries('partialCategoryData');
+      showSnackbar('budget');
     },
+    onError: () => showSnackbar('error'),
   });
 
   const { handleSubmit, reset, control, formState } = useForm({

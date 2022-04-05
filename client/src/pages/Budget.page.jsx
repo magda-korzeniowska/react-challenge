@@ -18,9 +18,11 @@ import {
   Table,
 } from 'ui';
 import { BudgetService } from 'api';
+import { useNotification } from 'hooks';
 
 export const BudgetPage = () => {
   const [isOpen, setOpen] = useState(false);
+  const showSnackbar = useNotification();
 
   const queryClient = useQueryClient();
 
@@ -36,7 +38,9 @@ export const BudgetPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries('budgetData');
       await queryClient.invalidateQueries('partialCategoryData');
+      showSnackbar('delete');
     },
+    onError: () => showSnackbar('error'),
   });
 
   const getStatusText = (budget) => {

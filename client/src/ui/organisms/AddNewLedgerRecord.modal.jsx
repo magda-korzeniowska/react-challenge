@@ -7,8 +7,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { CategoryService, LedgerService } from 'api';
 import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
 import { formatDollarsToCents } from 'utils';
+import { useNotification } from 'hooks';
 
 export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
+  const showSnackbar = useNotification();
   const queryClient = useQueryClient();
 
   const { data: categoryList } = useQuery('categoryData', () =>
@@ -23,7 +25,10 @@ export const AddNewLedgerRecord = ({ type, isOpen, onClose }) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries('ledgerData');
       await queryClient.invalidateQueries('summaryData');
+      await queryClient.invalidateQueries('budgetData');
+      showSnackbar(type.toLowerCase());
     },
+    onError: () => showSnackbar('error'),
   });
 
   const { handleSubmit, reset, control, formState } = useForm({

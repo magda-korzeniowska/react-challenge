@@ -29,6 +29,11 @@ export const useNotification = (type) => {
   const showSnackbar = (type) => {
     enqueueSnackbar(snackbars[type].message, {
       variant: snackbars[type].variant,
+      autoHideDuration: 5000,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right',
+      },
     });
   };
   return showSnackbar;

@@ -19,8 +19,14 @@ const App = () => {
         <SnackbarProvider
           maxSnack={3}
           iconVariant={{
-            success: <CheckCircleOutlineIcon sx={{ fontSize: '30px', paddingRight: 1 }}/>,
-            error: <ErrorOutlineIcon sx={{ fontSize: '30px', paddingRight: 1 }} />,
+            success: (
+              <CheckCircleOutlineIcon
+                sx={{ fontSize: '30px', paddingRight: 1 }}
+              />
+            ),
+            error: (
+              <ErrorOutlineIcon sx={{ fontSize: '30px', paddingRight: 1 }} />
+            ),
           }}
         >
           <Router />

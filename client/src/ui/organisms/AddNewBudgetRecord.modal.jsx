@@ -55,45 +55,49 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
       saveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'spaceBetween',
-        }}
-      >
-        <FormInputText
-          label="Kwota"
-          name="amountInCents"
-          defaultValue=""
-          control={control}
-          type="number"
-          rules={{
-            required: { value: true, message: 'Kwota nie może być pusta' },
-            min: { value: 0, message: 'Kwota musi być większa niż 0' },
-            max: {
-              value: 1000000,
-              message: 'Kwota nie może być większa niż 1000000',
-            },
-          }}
-        />
-        <FormSelect
-          name="categoryId"
-          label="Kategoria"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: { value: true, message: 'Wybierz kategorię' },
+      {!categoryList?.length ? (
+        'Brak kategorii do przypisania'
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'spaceBetween',
           }}
         >
-          {categoryList?.map((category) => (
-            <MenuItem key={`category---${category.id}`} value={category.id}>
-              <CategoryCell color={category.color} name={category.name} />
-            </MenuItem>
-          ))}
-        </FormSelect>
-      </form>
+          <FormInputText
+            label="Kwota"
+            name="amountInCents"
+            defaultValue=""
+            control={control}
+            type="number"
+            rules={{
+              required: { value: true, message: 'Kwota nie może być pusta' },
+              min: { value: 0, message: 'Kwota musi być większa niż 0' },
+              max: {
+                value: 1000000,
+                message: 'Kwota nie może być większa niż 1000000',
+              },
+            }}
+          />
+          <FormSelect
+            name="categoryId"
+            label="Kategoria"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: { value: true, message: 'Wybierz kategorię' },
+            }}
+          >
+            {categoryList?.map((category) => (
+              <MenuItem key={`category---${category.id}`} value={category.id}>
+                <CategoryCell color={category.color} name={category.name} />
+              </MenuItem>
+            ))}
+          </FormSelect>
+        </form>
+      )}
     </Modal>
   );
 };

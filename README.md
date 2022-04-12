@@ -2,16 +2,14 @@
 
 # Home Budget Management App
 
----
-
-##### Project created as part of _Dare IT Portfolio Challenge_ - Frontend Development (React) Path
+#### Project created as part of _Dare IT Portfolio Challenge_ - Frontend Development (React) Path
 
 This is a React web application for managing your home budget - it allows you to define budgets for individual types of expenses, track the level of spending, and thus the current state of home finances.
 
 ![Budget Page ](/client/src/assets/budget_page.png)
 ![Wallet Page ](/client/src/assets/wallet_page.png)
 
-### Table of Contents
+## Table of Contents
 
 - [About Project](#about-project)
 - [Acquired Skills](#acquired-skills)
@@ -21,7 +19,7 @@ This is a React web application for managing your home budget - it allows you to
 - [Sources](#sources)
 - [Contributing](#contributing)
 
-### About Project
+## About Project
 
 The project was created as part of Dare IT Portfolio Challenge - a 3-month program prepared by mentors from the Dare IT community together with Flying Bisons IT company and in collaboration with Stanford University from Silicon Valley.
 
@@ -31,23 +29,27 @@ At the beginning of the project, the participants received a starter pack with a
 
 The application was programmed in React.js 17.0 using Material UI, react-query, react-hook-form, react-chartjs-2, Notistack, Storybook, Cypress.
 
-### Acquired Skills
+## Acquired Skills
 
-For the first time I had an opportunity to test in practice Storybook - it allows to create and test components in isolation => it runs outside of the app, so project dependencies do not affect the behaviour of components. So helpful!
-I also found out how simple, fast and fun it can be to fetch data with react-query - a great hook library for managing data requests that completely removes the need to put remote data inside the global state!
-Thanks to react-chartjs-2 I've created my very first chart in React and found out that data visualization does not have to be difficult.
-Last, but not least - Material UI - a component library which by allowing to "drag and drop" elements to build UI and customize components makes developer's work so much faster and easier.
+For the first time I had an opportunity to test Storybook in practice - it allows to create and test components in isolation => it runs outside of the app, so project dependencies do not affect the behaviour of components. So helpful!
 
-### Project Status
+I also found out how simple, fast and fun it can be to fetch data with react-query - a great hook library for managing data requests that completely eliminates the need to put remote data inside the global state!
+
+Thanks to react-chartjs-2 I've created my very first chart in React and found out that data visualization doesn't need to be difficult.
+
+Last, but not least - Material UI - a component library which by allowing to "drag and drop" elements to build UI and customize components makes developers' work so much faster and easier.
+
+## Project Status
 
 The project is still being developed.
 Planned features:
 
 - mobile version
-- search expenses
+- search bar for expenses
 - alert when budget is exceeded
+- ...
 
-### Installation
+## Installation
 
 1. Start terminal and clone repository using:
    ```bash
@@ -77,7 +79,7 @@ Planned features:
    - server - backend app - http://localhost:4320
      - API documentation is available at http://localhost:4320/swagger
 
-### Dependencies
+## Dependencies
 
 - [Material UI](https://mui.com)
 - [react-query](https://react-query.tanstack.com)
@@ -87,10 +89,10 @@ Planned features:
 - [storybook](https://storybook.js.org)
 - [prop-types](https://www.npmjs.com/package/prop-types)
 
-### Sources
+## Sources
 
 - icons: [Material Icons](https://mui.com/components/material-icons/)
 
-### Contributing
+## Contributing
 
 This is a Dare IT Portfolio Challenge project. Therefore, no pull requests will be accepted.

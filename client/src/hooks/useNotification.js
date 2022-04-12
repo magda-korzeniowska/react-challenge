@@ -1,4 +1,5 @@
 import { useSnackbar } from 'notistack';
+import { theme } from '../theme';
 
 const snackbars = {
   expense: {
@@ -33,6 +34,14 @@ export const useNotification = (type) => {
       anchorOrigin: {
         vertical: 'bottom',
         horizontal: 'right',
+      },
+      sx: {
+        '& .SnackbarContent-root': {
+          backgroundColor:
+            snackbars[type].variant === 'success'
+              ? theme.palette.success.main
+              : theme.palette.error.main,
+        },
       },
     });
   };

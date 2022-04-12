@@ -88,10 +88,7 @@ export const LedgerWidget = () => {
 
   return (
     <Card
-      sx={{
-        minHeight: '80vh',
-        height: '100%',
-      }}
+      sx={{ height: '100%' }}
       title={
         <ActionHeader
           variant={'h1'}

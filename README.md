@@ -21,9 +21,9 @@ This is a React web application for managing your home budget - it allows you to
 
 ## About Project
 
-The project was created as part of Dare IT Portfolio Challenge - a 3-month program prepared by mentors from the Dare IT community together with Flying Bisons IT company and in collaboration with Stanford University from Silicon Valley.
+The project was created as part of [Dare IT Portfolio Challenge](https://www.dareit.io) - a 3-month program prepared by mentors from the Dare IT community together with Flying Bisons IT company and in collaboration with Stanford University from Silicon Valley.
 
-The aim of the project was to create a React web application for home budget management and to expand the portfolio with the support of experts from the IT industry.
+The aim of the project was to improve practical skills in React.js, learn new technologies and good practices, and at the same time to expand the portfolio with the support of experts from the IT industry.
 
 At the beginning of the project, the participants received a starter pack with a base repository, which was individually expanded based on the received acceptance criteria and design in Figma.
 
@@ -41,11 +41,13 @@ Last, but not least - Material UI - a component library which by allowing to "dr
 
 ## Project Status
 
-The project is still being developed.
+The Dare IT Portfolio Challenge is completed, but the project is still under development.
 Planned features:
 
 - mobile version
 - search bar for expenses
+- filter expenses by type
+- editing
 - alert when budget is exceeded
 - ...
 
@@ -86,6 +88,7 @@ Planned features:
 - [react-hook-form](https://react-hook-form.com)
 - [react-chartjs-2](https://github.com/reactchartjs/react-chartjs-2)
 - [notistack](https://iamhosseindhv.com/notistack)
+- [cypress](https://www.cypress.io)
 - [storybook](https://storybook.js.org)
 - [prop-types](https://www.npmjs.com/package/prop-types)
 

@@ -21,7 +21,7 @@ export const Modal = ({
   handleClose,
   children,
   isOpen,
-  saveBtnDisabled,
+  isSaveBtnDisabled,
   onSubmit,
 }) => {
   return (
@@ -49,7 +49,7 @@ export const Modal = ({
             >
               Anuluj
             </Button>
-            <Button onClick={onSubmit} disabled={saveBtnDisabled}>
+            <Button onClick={onSubmit} disabled={isSaveBtnDisabled}>
               Zapisz
             </Button>
           </CardActions>
@@ -64,5 +64,5 @@ Modal.propTypes = {
   description: PropTypes.string,
   handleClose: PropTypes.func,
   isOpen: PropTypes.bool,
-  saveBtnDisabled: PropTypes.bool,
+  isSaveBtnDisabled: PropTypes.bool,
 };

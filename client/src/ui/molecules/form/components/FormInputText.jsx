@@ -16,12 +16,13 @@ export const FormInputText = ({
       name={name}
       defaultValue={defaultValue}
       rules={rules}
-      render={({ field: { value, onChange }, fieldState: { error } }) => (
+      render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <TextField
           value={value}
           label={label}
           type={type}
           onChange={onChange}
+          onBlur={onBlur}
           error={!!error}
           helperText={error ? error.message : null}
           sx={{ marginBottom: '30px' }}

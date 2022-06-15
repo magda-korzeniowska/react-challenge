@@ -18,7 +18,7 @@ export const BudgetTableWidget = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, data, isError, isFetching } = useQuery('budgetData', () =>
+  const { isLoading, data, isError, isFetching, error } = useQuery('budgetData', () =>
     BudgetService.findAll(),
   );
 
@@ -74,7 +74,7 @@ export const BudgetTableWidget = () => {
   return (
     <>
       {(isLoading || isFetching) && <Loader />}
-      {isError && <Error />}
+      {isError && <Error error={error} />}
       {data?.length === 0 && <NoContent />}
 
       {data?.length > 0 && (

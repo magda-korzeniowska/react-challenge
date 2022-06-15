@@ -33,7 +33,7 @@ export const LedgerWidget = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, isFetching, isError, data } = useQuery('ledgerData', () =>
+  const { isLoading, isFetching, isError, data, error } = useQuery('ledgerData', () =>
     LedgerService.findAll(),
   );
 
@@ -121,10 +121,10 @@ export const LedgerWidget = () => {
       }
     >
       {(isLoading || isFetching) && <Loader />}
-      {isError && <Error />}
+      {isError && <Error error={error} />}
       {data?.length === 0 && <NoContent />}
 
-      {data && data.length > 0 && (
+      {data?.length > 0 && (
         <Table
           headCells={headCells}
           rows={data}

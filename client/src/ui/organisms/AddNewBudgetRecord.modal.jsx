@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
 import { BudgetService, CategoryService } from 'api';
-import { CategoryCell, FormInputText, FormSelect, Modal } from 'ui';
+import { CategoryCell, Error, FormInputText, FormSelect, Loader, Modal } from 'ui';
 import { formatDollarsToCents } from 'utils';
 import { useNotification } from 'hooks';
 
@@ -17,7 +17,7 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
     return BudgetService.create({ requestBody: newBudget });
   };
 
-  const { data: categoryList } = useQuery('partialCategoryData', () =>
+  const { data: categoryList, isLoading, isFetching, isError, error } = useQuery('partialCategoryData', () =>
     CategoryService.findAll(true),
   );
 
@@ -31,7 +31,7 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
   });
 
   const { handleSubmit, reset, control, formState } = useForm({
-    mode: 'onChange',
+    mode: 'all',
   });
 
   const handleClose = () => {
@@ -52,9 +52,12 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
       title={'Zdefiniuj budżet'}
       isOpen={isOpen}
       handleClose={handleClose}
-      saveBtnDisabled={formState.isValid ? false : true}
+      isSaveBtnDisabled={formState.isValid ? false : true}
       onSubmit={handleSubmit(onSubmit)}
     >
+      {(isLoading || isFetching) && <Loader />}
+      {isError && <Error error={error} />}
+
       {!categoryList?.length ? (
         'Brak kategorii do przypisania'
       ) : (
@@ -73,6 +76,7 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
             control={control}
             type="number"
             rules={{
+              setValueAs: (value) => value.trim(),
               required: { value: true, message: 'Kwota nie może być pusta' },
               min: { value: 0, message: 'Kwota musi być większa niż 0' },
               max: {

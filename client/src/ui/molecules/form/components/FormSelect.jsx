@@ -18,12 +18,13 @@ export const FormSelect = ({
     <FormControl {...props}>
       <InputLabel id={labelId}>{label}</InputLabel>
       <Controller
-        render={({ field: { value, onChange }, fieldState: { error } }) => (
+        render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
           <>
             <Select
               labelId={labelId}
               label={label}
               onChange={onChange}
+              onBlur={onBlur}
               value={value}
               error={!!error}
             >

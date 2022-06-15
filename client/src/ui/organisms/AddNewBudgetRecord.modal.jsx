@@ -42,7 +42,7 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
   });
 
   const { handleSubmit, reset, control, formState } = useForm({
-    mode: 'all',
+    mode: 'onChange',
   });
 
   const handleClose = () => {

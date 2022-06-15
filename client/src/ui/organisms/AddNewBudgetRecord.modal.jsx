@@ -5,7 +5,14 @@ import { useForm } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 
 import { BudgetService, CategoryService } from 'api';
-import { CategoryCell, Error, FormInputText, FormSelect, Loader, Modal } from 'ui';
+import {
+  CategoryCell,
+  Error,
+  FormInputText,
+  FormSelect,
+  Loader,
+  Modal,
+} from 'ui';
 import { formatDollarsToCents } from 'utils';
 import { useNotification } from 'hooks';
 
@@ -17,9 +24,13 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
     return BudgetService.create({ requestBody: newBudget });
   };
 
-  const { data: categoryList, isLoading, isFetching, isError, error } = useQuery('partialCategoryData', () =>
-    CategoryService.findAll(true),
-  );
+  const {
+    data: categoryList,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useQuery('partialCategoryData', () => CategoryService.findAll(true));
 
   const { mutate } = useMutation(createBudget, {
     onSuccess: async () => {
@@ -62,7 +73,6 @@ export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
         'Brak kategorii do przypisania'
       ) : (
         <form
-          onSubmit={handleSubmit(onSubmit)}
           style={{
             display: 'flex',
             flexDirection: 'column',

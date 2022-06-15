@@ -33,8 +33,9 @@ export const LedgerWidget = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, isFetching, isError, data, error } = useQuery('ledgerData', () =>
-    LedgerService.findAll(),
+  const { isLoading, isFetching, isError, data, error } = useQuery(
+    'ledgerData',
+    () => LedgerService.findAll(),
   );
 
   const deleteData = (ids) => {

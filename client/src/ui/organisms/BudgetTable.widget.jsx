@@ -18,8 +18,9 @@ export const BudgetTableWidget = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, data, isError, isFetching, error } = useQuery('budgetData', () =>
-    BudgetService.findAll(),
+  const { isLoading, data, isError, isFetching, error } = useQuery(
+    'budgetData',
+    () => BudgetService.findAll(),
   );
 
   const deleteBudget = (budgetsToRemove) => {

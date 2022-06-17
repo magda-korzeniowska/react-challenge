@@ -21,6 +21,7 @@ export const BudgetSummary = () => {
     data: budgetData,
     isLoading,
     isError,
+    error,
   } = useQuery('budgetData', () => BudgetService.findAll(), {
     select: useCallback((response) => {
       return {
@@ -78,7 +79,7 @@ export const BudgetSummary = () => {
       subheader="Podsumowanie wydatków"
     >
       {isLoading && <Loader />}
-      {!isLoading && isError && <Error error={isError} />}
+      {!isLoading && isError && <Error error={error} />}
       {!isLoading &&
         !isError &&
         (budgetData?.labels.length === 0 ||

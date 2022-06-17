@@ -16,6 +16,7 @@ export const LedgerSummary = () => {
     data: summaryData,
     isLoading,
     isError,
+    error,
   } = useQuery('summaryData', () => SummaryService.findAll(), {
     select: useCallback((response) => {
       return {
@@ -72,7 +73,7 @@ export const LedgerSummary = () => {
       subheader="Pozostała kwota"
     >
       {isLoading && <Loader />}
-      {!isLoading && isError && <Error error={isError} />}
+      {!isLoading && isError && <Error error={error} />}
       {!isLoading && !isError && summaryData?.labels.length === 0 && (
         <Typography variant={'h5'} marginTop={4} align={'center'}>
           Brak wyników

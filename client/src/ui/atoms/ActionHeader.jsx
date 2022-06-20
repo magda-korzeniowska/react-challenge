@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import { Box, Typography } from '@mui/material';
 
 export const ActionHeader = ({
   title,
@@ -9,7 +9,6 @@ export const ActionHeader = ({
 }) => {
   return (
     <Box
-      // paddingBottom={3}
       spacing={{
         xs: 3,
         md: 0,

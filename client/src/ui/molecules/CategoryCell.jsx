@@ -1,6 +1,7 @@
-import { Box } from '@mui/material';
-import * as PropTypes from 'prop-types';
 import React from 'react';
+import * as PropTypes from 'prop-types';
+import { Box } from '@mui/material';
+
 import { ColorBox } from '../atoms/ColorBox';
 
 export const CategoryCell = ({ color, name, size }) => {

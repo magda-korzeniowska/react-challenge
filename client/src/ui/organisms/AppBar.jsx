@@ -1,13 +1,15 @@
 import * as React from 'react';
-import MuiAppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
-import { MainMenu, ListItemLink } from 'ui';
-import IconButton from '@mui/material/IconButton';
+import {
+  AppBar as MuiAppBar,
+  Box,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { MainMenu, ListItemLink } from 'ui';
 import DareItLogo from 'assets/dare_it_portfolio_challenge.svg';
 
 export const AppBar = ({ routing }) => {

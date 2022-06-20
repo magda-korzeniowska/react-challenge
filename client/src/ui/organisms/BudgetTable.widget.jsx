@@ -1,31 +1,48 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { BUDGET_QUERY } from 'queryKeys';
-import { BudgetService } from 'api';
-import { Loader } from 'ui/atoms/Loader';
-import { Error } from 'ui/atoms/Error';
-import { NoContent } from 'ui/atoms/NoContent';
-import { Table } from 'ui/molecules/table/Table';
 import React from 'react';
-import { CategoryCell } from 'ui/molecules/CategoryCell';
-import { Money } from 'ui/atoms/Money';
-import { LocalizedDate } from 'ui/atoms/LocalizedDate';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
+import { BudgetService } from 'api';
+import { useNotification } from 'hooks';
+import {
+  CategoryCell,
+  Error,
+  Loader,
+  LocalizedDate,
+  Money,
+  NoContent,
+  Table,
+} from 'ui';
 
 export const BudgetTableWidget = () => {
+  const showSnackbar = useNotification();
+
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery(BUDGET_QUERY, () =>
-    BudgetService.findAll(),
+  const { isLoading, data, isError, isFetching, error } = useQuery(
+    'budgetData',
+    () => BudgetService.findAll(),
   );
 
-  const mutation = useMutation((ids) => BudgetService.remove({ ids }), {
+  const deleteBudget = (budgetsToRemove) => {
+    return BudgetService.remove({ ids: budgetsToRemove });
+  };
+
+  const { mutate } = useMutation(deleteBudget, {
     onSuccess: async () => {
-      await queryClient.refetchQueries([BUDGET_QUERY]);
+      await queryClient.invalidateQueries('budgetData');
+      await queryClient.invalidateQueries('partialCategoryData');
+      showSnackbar('delete');
     },
+    onError: () => showSnackbar('error'),
   });
 
-  const deleteRecords = (ids) => mutation.mutate(ids);
+  const getStatusText = (row) => {
+    if (row.currentSpending === row.amountInCents) return 'wykorzystany';
+    if (row.currentSpending > row.amountInCents) return 'przekroczony';
+    if (row.currentSpending < row.amountInCents) return 'w normie';
+  };
 
-  const tableDefinition = [
+  const headCells = [
     {
       id: 'name',
       label: 'Nazwa',
@@ -34,7 +51,7 @@ export const BudgetTableWidget = () => {
       ),
     },
     {
-      id: 'amount',
+      id: 'planned-expenses',
       label: 'Planowane wydatki',
       renderCell: (row) => <Money inCents={row.amountInCents} />,
     },
@@ -46,37 +63,29 @@ export const BudgetTableWidget = () => {
     {
       id: 'status',
       label: 'Status',
-      renderCell: (row) => {
-        if (row.currentSpending === row.amountInCents) return 'Wykorzystany';
-        if (row.currentSpending > row.amountInCents) return 'Przekroczone';
-        if (row.currentSpending < row.amountInCents) return 'W normie';
-      },
+      renderCell: (row) => getStatusText(row),
     },
     {
-      id: 'createdAt',
+      id: 'date',
       label: 'Data utworzenia',
       renderCell: (row) => <LocalizedDate date={row.createdAt} />,
     },
   ];
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Error error={error} />;
-  }
-
-  if (!data?.length) {
-    return <NoContent />;
-  }
-
   return (
-    <Table
-      rows={data}
-      headCells={tableDefinition}
-      getUniqueId={(row) => row.id}
-      deleteRecords={deleteRecords}
-    />
+    <>
+      {(isLoading || isFetching) && <Loader />}
+      {isError && <Error error={error} />}
+      {data?.length === 0 && <NoContent />}
+
+      {data?.length > 0 && (
+        <Table
+          headCells={headCells}
+          rows={data}
+          getUniqueId={(element) => element.id}
+          deleteRecords={(budgetsToRemove) => mutate(budgetsToRemove)}
+        />
+      )}
+    </>
   );
 };

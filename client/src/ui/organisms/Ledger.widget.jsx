@@ -4,6 +4,8 @@ import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import { LedgerService } from 'api';
+import { useNotification } from 'hooks';
 import {
   ActionHeader,
   AddNewLedgerRecord,
@@ -17,11 +19,12 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { LedgerService } from 'api';
 
 export const LedgerWidget = () => {
   const [isOpen, setOpen] = useState(false);
   const [type, setType] = useState('');
+
+  const showSnackbar = useNotification();
 
   const handleOpenModal = (modalType) => {
     setOpen(true);
@@ -30,8 +33,9 @@ export const LedgerWidget = () => {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, isFetching, isError, data } = useQuery('ledgerData', () =>
-    LedgerService.findAll(),
+  const { isLoading, isFetching, isError, data, error } = useQuery(
+    'ledgerData',
+    () => LedgerService.findAll(),
   );
 
   const deleteData = (ids) => {
@@ -43,7 +47,9 @@ export const LedgerWidget = () => {
       await queryClient.invalidateQueries('ledgerData');
       await queryClient.invalidateQueries('summaryData');
       await queryClient.invalidateQueries('budgetData');
+      showSnackbar('delete');
     },
+    onError: () => showSnackbar('error'),
   });
 
   const headCells = [
@@ -83,10 +89,7 @@ export const LedgerWidget = () => {
 
   return (
     <Card
-      sx={{
-        minHeight: '80vh',
-        height: '100%',
-      }}
+      sx={{ height: '100%' }}
       title={
         <ActionHeader
           variant={'h1'}
@@ -119,10 +122,10 @@ export const LedgerWidget = () => {
       }
     >
       {(isLoading || isFetching) && <Loader />}
-      {isError && <Error />}
+      {isError && <Error error={error} />}
       {data?.length === 0 && <NoContent />}
 
-      {data && data.length > 0 && (
+      {data?.length > 0 && (
         <Table
           headCells={headCells}
           rows={data}

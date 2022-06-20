@@ -1,8 +1,6 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
+import React from 'react';
 import { Controller } from 'react-hook-form';
+import { FormControl, FormHelperText, InputLabel, Select } from '@mui/material';
 
 export const FormSelect = ({
   name,
@@ -18,12 +16,16 @@ export const FormSelect = ({
     <FormControl {...props}>
       <InputLabel id={labelId}>{label}</InputLabel>
       <Controller
-        render={({ field: { value, onChange }, fieldState: { error } }) => (
+        render={({
+          field: { value, onChange, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Select
               labelId={labelId}
               label={label}
               onChange={onChange}
+              onBlur={onBlur}
               value={value}
               error={!!error}
             >

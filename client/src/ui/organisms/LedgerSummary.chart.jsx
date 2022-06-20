@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Box } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { SummaryService } from 'api';
 import { ActionHeader, Card, CategoryCell, Error, Loader, Money } from 'ui';
@@ -15,6 +14,7 @@ export const LedgerSummary = () => {
   const {
     data: summaryData,
     isLoading,
+    isError,
     error,
   } = useQuery('summaryData', () => SummaryService.findAll(), {
     select: useCallback((response) => {
@@ -72,13 +72,13 @@ export const LedgerSummary = () => {
       subheader="Pozostała kwota"
     >
       {isLoading && <Loader />}
-      {!isLoading && error && <Error error={error} />}
-      {!isLoading && !error && summaryData?.labels.length === 0 && (
+      {!isLoading && isError && <Error error={error} />}
+      {!isLoading && !isError && summaryData?.labels.length === 0 && (
         <Typography variant={'h5'} marginTop={4} align={'center'}>
           Brak wyników
         </Typography>
       )}
-      {!isLoading && !error && summaryData?.labels.length !== 0 && (
+      {!isLoading && !isError && summaryData?.labels.length !== 0 && (
         <Box sx={{ height: '250px', paddingTop: 3, paddingBottom: 3 }}>
           <Doughnut data={data} options={options} />
         </Box>

@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
   BarElement,
@@ -10,9 +8,10 @@ import {
   LinearScale,
   Tooltip,
 } from 'chart.js';
+import { Box, Typography } from '@mui/material';
 
-import { ActionHeader, Card, Error, Loader } from 'ui';
 import { BudgetService } from 'api';
+import { ActionHeader, Card, Error, Loader } from 'ui';
 
 export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);
@@ -20,6 +19,7 @@ export const BudgetSummary = () => {
   const {
     data: budgetData,
     isLoading,
+    isError,
     error,
   } = useQuery('budgetData', () => BudgetService.findAll(), {
     select: useCallback((response) => {
@@ -78,9 +78,9 @@ export const BudgetSummary = () => {
       subheader="Podsumowanie wydatków"
     >
       {isLoading && <Loader />}
-      {!isLoading && error && <Error error={error} />}
+      {!isLoading && isError && <Error error={error} />}
       {!isLoading &&
-        !error &&
+        !isError &&
         (budgetData?.labels.length === 0 ||
           budgetData?.datasets[0].data.every((item) => item === 0)) && (
           <Typography variant={'h5'} marginTop={4} align={'center'}>
@@ -88,7 +88,7 @@ export const BudgetSummary = () => {
           </Typography>
         )}
       {!isLoading &&
-        !error &&
+        !isError &&
         budgetData?.labels.length !== 0 &&
         !budgetData?.datasets[0].data.every((item) => item === 0) && (
           <Box sx={{ paddingTop: 3 }}>

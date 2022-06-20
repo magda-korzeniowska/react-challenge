@@ -1,9 +1,6 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import MuiModal from '@mui/material/Modal';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-
+import { CardActions, CardContent, Modal as MuiModal } from '@mui/material';
 import { Button, Card } from 'ui';
 
 const style = {
@@ -21,7 +18,7 @@ export const Modal = ({
   handleClose,
   children,
   isOpen,
-  saveBtnDisabled,
+  isSaveBtnDisabled,
   onSubmit,
 }) => {
   return (
@@ -49,7 +46,7 @@ export const Modal = ({
             >
               Anuluj
             </Button>
-            <Button onClick={onSubmit} disabled={saveBtnDisabled}>
+            <Button onClick={onSubmit} disabled={isSaveBtnDisabled}>
               Zapisz
             </Button>
           </CardActions>
@@ -64,5 +61,5 @@ Modal.propTypes = {
   description: PropTypes.string,
   handleClose: PropTypes.func,
   isOpen: PropTypes.bool,
-  saveBtnDisabled: PropTypes.bool,
+  isSaveBtnDisabled: PropTypes.bool,
 };

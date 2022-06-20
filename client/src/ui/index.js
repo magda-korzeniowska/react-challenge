@@ -25,6 +25,7 @@ export { AddNewBudgetRecord } from './organisms/AddNewBudgetRecord.modal';
 export { AddNewLedgerRecord } from './organisms/AddNewLedgerRecord.modal';
 export { LedgerSummary } from './organisms/LedgerSummary.chart';
 export { BudgetSummary } from './organisms/BudgetSummary.chart';
+export { BudgetTableWidget } from './organisms/BudgetTable.widget';
 
 // templates
 export { Page } from './templates/Page';

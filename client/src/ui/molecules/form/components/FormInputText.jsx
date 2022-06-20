@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
+import { TextField } from '@mui/material';
 
 export const FormInputText = ({
   label,

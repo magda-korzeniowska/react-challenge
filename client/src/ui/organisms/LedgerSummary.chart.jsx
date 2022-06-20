@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Box } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { SummaryService } from 'api';
 import { ActionHeader, Card, CategoryCell, Error, Loader, Money } from 'ui';

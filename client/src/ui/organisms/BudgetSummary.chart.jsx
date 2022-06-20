@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
   BarElement,
@@ -10,9 +8,11 @@ import {
   LinearScale,
   Tooltip,
 } from 'chart.js';
+import { Box, Typography } from '@mui/material';
 
-import { ActionHeader, Card, Error, Loader } from 'ui';
 import { BudgetService } from 'api';
+import { ActionHeader, Card, Error, Loader } from 'ui';
+
 
 export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);

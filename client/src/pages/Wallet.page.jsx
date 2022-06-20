@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { BudgetSummary, LedgerWidget, LedgerSummary, Page } from 'ui';
+import { BudgetSummary, LedgerSummary, LedgerWidget, Page } from 'ui';
 
 export const WalletPage = () => (
   <Page title={'Portfel'}>

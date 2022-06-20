@@ -1,8 +1,6 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
+import React from 'react';
 import { Controller } from 'react-hook-form';
+import { FormControl, FormHelperText, InputLabel, Select } from '@mui/material';
 
 export const FormSelect = ({
   name,

@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import { Box, Typography } from '@mui/material';
 
 export const ActionHeader = ({
   title,

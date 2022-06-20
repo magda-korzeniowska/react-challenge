@@ -2,9 +2,10 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
-import MenuItem from '@mui/material/MenuItem';
+import { MenuItem } from '@mui/material';
 
 import { BudgetService, CategoryService } from 'api';
+import { useNotification } from 'hooks';
 import {
   CategoryCell,
   Error,
@@ -14,7 +15,6 @@ import {
   Modal,
 } from 'ui';
 import { formatDollarsToCents } from 'utils';
-import { useNotification } from 'hooks';
 
 export const AddNewBudgetRecord = ({ isOpen, onClose }) => {
   const showSnackbar = useNotification();

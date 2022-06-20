@@ -1,6 +1,8 @@
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
+import { BudgetService } from 'api';
+import { useNotification } from 'hooks';
 import {
   CategoryCell,
   Error,
@@ -10,8 +12,6 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { BudgetService } from 'api';
-import { useNotification } from 'hooks';
 
 export const BudgetTableWidget = () => {
   const showSnackbar = useNotification();

@@ -1,10 +1,14 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import MuiModal from '@mui/material/Modal';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-
+import {
+  CardActions,
+  CardContent,
+  Modal as MuiModal
+} from '@mui/material';
 import { Button, Card } from 'ui';
+
+
+
 
 const style = {
   position: 'absolute',

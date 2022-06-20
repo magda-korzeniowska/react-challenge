@@ -4,6 +4,8 @@ import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import { LedgerService } from 'api';
+import { useNotification } from 'hooks';
 import {
   ActionHeader,
   AddNewLedgerRecord,
@@ -17,8 +19,6 @@ import {
   NoContent,
   Table,
 } from 'ui';
-import { LedgerService } from 'api';
-import { useNotification } from 'hooks';
 
 export const LedgerWidget = () => {
   const [isOpen, setOpen] = useState(false);

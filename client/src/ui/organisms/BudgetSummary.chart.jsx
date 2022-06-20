@@ -13,7 +13,6 @@ import { Box, Typography } from '@mui/material';
 import { BudgetService } from 'api';
 import { ActionHeader, Card, Error, Loader } from 'ui';
 
-
 export const BudgetSummary = () => {
   Chart.register(CategoryScale, LinearScale, Tooltip, BarElement);
 
